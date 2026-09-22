@@ -34,6 +34,12 @@
         </div>
     </nav>
 
+    <button id="privileged-toggle" class="privileged-toggle" aria-label="Modo privilegiado" title="Modo privilegiado">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z"></path>
+        </svg>
+    </button>
+
     <!-- HERO (OSCURO) -->
     <section class="hero">
         <div class="hero-content">
@@ -88,13 +94,13 @@
         <div class="skills-card">
             <h2>Stack de Software</h2>
             <div class="software-grid">
-                <div class="software-item">Rhinoceros</div>
-                <div class="software-item">KeyShot</div>
-                <div class="software-item">Illustrator</div>
-                <div class="software-item">Photoshop</div>
-                <div class="software-item">Inventor</div>
-                <div class="software-item">AutoCAD</div>
-                <div class="software-item">3ds Max</div>
+                <div class="software-item" data-color="orange">Rhinoceros</div>
+                <div class="software-item" data-color="amber">KeyShot</div>
+                <div class="software-item" data-color="orange-dark">Illustrator</div>
+                <div class="software-item" data-color="blue">Photoshop</div>
+                <div class="software-item" data-color="cyan">Inventor</div>
+                <div class="software-item" data-color="blue-strong">AutoCAD</div>
+                <div class="software-item" data-color="purple">3ds Max</div>
             </div>
         </div>
     </section>
@@ -114,6 +120,41 @@
                 <button class="filter-btn" data-filter="arcos">Arcos</button>
                 <button class="filter-btn" data-filter="otros">Otros</button>
             </div>
+        </div>
+
+        <div id="admin-panel" class="admin-panel hidden" aria-live="polite">
+            <div class="admin-header">
+                <h3>Modo privilegiado</h3>
+                <button id="logout-privileged" class="ghost-button" type="button">Cerrar sesión</button>
+            </div>
+
+            <form id="project-form" class="project-form">
+                <div class="field-group">
+                    <label for="project-name">Nombre del proyecto</label>
+                    <input id="project-name" name="project-name" type="text" placeholder="Ej. Display Premium" required>
+                </div>
+                <div class="field-group">
+                    <label for="project-category">Categoría</label>
+                    <select id="project-category" name="project-category">
+                        <option value="chimeneas">Chimeneas</option>
+                        <option value="columnas">Columnas</option>
+                        <option value="counters">Counters</option>
+                        <option value="balconeras">Balconeras</option>
+                        <option value="cenefas">Cenefas</option>
+                        <option value="arcos">Arcos</option>
+                        <option value="otros">Otros</option>
+                    </select>
+                </div>
+                <div class="field-group">
+                    <label for="project-image">URL de imagen</label>
+                    <input id="project-image" name="project-image" type="url" placeholder="https://.../imagen.jpg" required>
+                </div>
+                <div class="field-group">
+                    <label for="project-model">URL del modelo 3D (opcional)</label>
+                    <input id="project-model" name="project-model" type="url" placeholder="https://.../modelo.glb">
+                </div>
+                <button type="submit" class="btn-primary admin-submit">Agregar proyecto</button>
+            </form>
         </div>
 
         <div class="projects-grid">
@@ -345,6 +386,18 @@
                 </model-viewer>
             </div>
             <p class="modal-hint">🖱️ Arrastra para rotar · Scroll para zoom · Click derecho para mover</p>
+        </div>
+    </div>
+
+    <div id="privileged-modal" class="privileged-modal hidden" aria-hidden="true">
+        <div class="privileged-modal-content">
+            <button id="close-privileged-modal" class="modal-close" aria-label="Cerrar">&times;</button>
+            <h3>Modo privilegiado</h3>
+            <p>Ingresa la contraseña para gestionar proyectos.</p>
+            <label class="sr-only" for="privileged-password">Contraseña</label>
+            <input id="privileged-password" type="password" placeholder="Contraseña" autocomplete="current-password">
+            <button id="access-privileged" class="btn-primary" type="button">Entrar</button>
+            <small>Contraseña por defecto: steban2026</small>
         </div>
     </div>
 

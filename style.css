@@ -47,6 +47,37 @@ li {
 }
 
 /* ================= NAVEGACIÓN ================= */
+.privileged-toggle {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    width: 52px;
+    height: 52px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(7, 11, 20, 0.85);
+    color: var(--text-light);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 120;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.privileged-toggle:hover {
+    transform: translateY(-2px) scale(1.03);
+    border-color: var(--primary-cyan);
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.25);
+}
+
+.privileged-toggle svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
 nav {
     display: flex;
     justify-content: space-between;
@@ -396,12 +427,22 @@ nav {
     font-size: 0.9rem;
     font-weight: 600;
     transition: 0.3s;
+    cursor: pointer;
 }
 
+.software-item[data-color='orange'] { --software-color: #ff8a00; }
+.software-item[data-color='amber'] { --software-color: #f4b400; }
+.software-item[data-color='orange-dark'] { --software-color: #ff6a00; }
+.software-item[data-color='blue'] { --software-color: #1f8fff; }
+.software-item[data-color='cyan'] { --software-color: #00d7ff; }
+.software-item[data-color='blue-strong'] { --software-color: #1c63ff; }
+.software-item[data-color='purple'] { --software-color: #a259ff; }
+
 .software-item:hover {
-    border-color: var(--primary-cyan);
-    color: var(--primary-cyan);
+    border-color: var(--software-color, var(--primary-cyan));
+    color: var(--software-color, var(--primary-cyan));
     transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
 }
 
 .projects-section {
@@ -445,6 +486,71 @@ nav {
 .filter-btn:hover {
     border-color: var(--primary-cyan);
     color: var(--primary-cyan);
+}
+
+.admin-panel {
+    margin-bottom: 2rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 18px;
+    padding: 1.5rem;
+}
+
+.admin-panel.hidden {
+    display: none;
+}
+
+.admin-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.admin-header h3 {
+    font-size: 1.25rem;
+}
+
+.ghost-button {
+    background: transparent;
+    color: var(--text-light);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 999px;
+    padding: 0.6rem 1rem;
+    cursor: pointer;
+}
+
+.project-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    align-items: end;
+}
+
+.field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.field-group label {
+    color: var(--text-gray);
+    font-size: 0.8rem;
+}
+
+.field-group input,
+.field-group select {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 10px;
+    background: rgba(7, 11, 20, 0.7);
+    color: var(--text-light);
+}
+
+.admin-submit {
+    min-height: 48px;
 }
 
 .projects-grid {
@@ -544,6 +650,40 @@ nav {
     transform: scale(0.95);
 }
 
+.project-admin-actions {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: none;
+    gap: 0.5rem;
+    z-index: 10;
+}
+
+.project-card.privileged .project-admin-actions {
+    display: flex;
+}
+
+.project-admin-btn {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(7, 11, 20, 0.8);
+    color: var(--text-light);
+    border-radius: 999px;
+    padding: 0.45rem 0.7rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.project-admin-btn.delete:hover {
+    border-color: #ff6b6b;
+    color: #ff6b6b;
+}
+
+.project-admin-btn.edit:hover {
+    border-color: var(--primary-cyan);
+    color: var(--primary-cyan);
+}
+
 .project-info {
     position: absolute;
     bottom: -60px;
@@ -572,6 +712,69 @@ nav {
 }
 
 /* ================= MODAL 3D VIEWER ================= */
+.privileged-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.78);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 130;
+}
+
+.privileged-modal.hidden {
+    display: none;
+}
+
+.privileged-modal-content {
+    width: min(420px, calc(100% - 2rem));
+    background: rgba(13, 20, 36, 0.96);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 18px;
+    padding: 2rem 1.5rem 1.5rem;
+    position: relative;
+    color: var(--text-light);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+}
+
+.privileged-modal-content h3 {
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.privileged-modal-content p {
+    color: var(--text-gray);
+    margin-bottom: 1rem;
+}
+
+.privileged-modal-content input {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text-light);
+    margin-bottom: 1rem;
+}
+
+.privileged-modal-content small {
+    display: block;
+    margin-top: 0.8rem;
+    color: var(--text-gray);
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
 .modal-overlay {
     position: fixed;
     top: 0;
