@@ -48,7 +48,9 @@ const defaultProjects = [
         name: 'Balconera Suavitel Madres',
         category: 'balconeras',
         image: 'Assets/Renders/Renders/Balconera Suavitel Madres.png',
-        model: 'Assets/Archivos 3D Portafolio Steban/Balconera Suavitel Madres/Balconera Suavitel Madres.glb'
+        model: 'Assets/Archivos 3D Portafolio Steban/Balconera Suavitel Madres/Balconera Suavitel Madres.glb',
+        embedType: 'sketchfab',
+        embedUrl: 'https://sketchfab.com/models/6c6f144b5b2b44c5a1605ff8f7cde568/embed'
     },
     {
         name: 'Cenefa L Arriba Freshficacia',
@@ -60,7 +62,9 @@ const defaultProjects = [
         name: 'Arco Blancox',
         category: 'arcos',
         image: 'Assets/Renders/Renders/Arco Blancox.png',
-        model: 'Assets/Archivos 3D Portafolio Steban/Arco Blancox/Arco Blancox.glb'
+        model: 'Assets/Archivos 3D Portafolio Steban/Arco Blancox/Arco Blancox.glb',
+        embedType: 'sketchfab',
+        embedUrl: 'https://sketchfab.com/models/4364133bcf524671b2be2cd964520aa3/embed'
     },
     {
         name: 'Bandejas Termoformadas LSS & SS',
@@ -124,6 +128,8 @@ function renderProjects(projects) {
         card.dataset.category = project.category;
         card.dataset.src = project.model || '';
         card.dataset.name = project.name;
+        if (project.embedType) card.dataset.embed = project.embedType;
+        if (project.embedUrl) card.dataset.embedUrl = project.embedUrl;
 
         const adminActions = document.createElement('div');
         adminActions.className = 'project-admin-actions';
@@ -152,7 +158,7 @@ function renderProjects(projects) {
 
         const badge = document.createElement('span');
         badge.className = 'card-3d-badge';
-        badge.textContent = project.model ? '3D' : 'IMG';
+        badge.textContent = project.model || project.embedUrl ? '3D' : 'IMG';
 
         preview.appendChild(img);
         preview.appendChild(badge);
@@ -175,19 +181,35 @@ function renderProjects(projects) {
         card.appendChild(info);
 
         const openProjectModal = () => {
-            if (!project.model) return;
+            if (!project.model && !project.embedUrl) return;
             const modal = document.getElementById('modal-3d');
             const modalViewer = document.getElementById('modal-viewer');
+            const modalIframe = document.getElementById('modal-iframe');
             const modalTitle = document.getElementById('modal-title');
+            
             modalTitle.textContent = project.name;
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
 
-            requestAnimationFrame(() => {
-                setTimeout(() => {
-                    modalViewer.setAttribute('src', project.model);
-                }, 150);
-            });
+            if (project.embedType === 'sketchfab' && project.embedUrl) {
+                modalViewer.style.display = 'none';
+                if (modalIframe) {
+                    modalIframe.style.display = 'block';
+                    modalIframe.setAttribute('src', project.embedUrl);
+                }
+            } else if (project.model) {
+                if (modalIframe) {
+                    modalIframe.style.display = 'none';
+                    modalIframe.setAttribute('src', '');
+                }
+                modalViewer.style.display = 'block';
+                
+                requestAnimationFrame(() => {
+                    setTimeout(() => {
+                        modalViewer.setAttribute('src', project.model);
+                    }, 150);
+                });
+            }
         };
 
         card.addEventListener('click', (event) => {
@@ -223,16 +245,26 @@ function renderProjects(projects) {
 function applyFilter(filter) {
     const cards = document.querySelectorAll('.project-card');
     cards.forEach((card) => {
-        const category = card.dataset.category;
-        const shouldShow = filter === 'todas' || category === filter;
-        card.classList.toggle('hidden', !shouldShow);
+        card.classList.add('fade-out');
     });
+
+    setTimeout(() => {
+        cards.forEach((card) => {
+            const category = card.dataset.category;
+            const shouldShow = filter === 'todas' || category === filter;
+            if (shouldShow) {
+                card.classList.remove('hidden', 'fade-out');
+            } else {
+                card.classList.add('hidden');
+                card.classList.remove('fade-out');
+            }
+        });
+    }, 300);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     const filterBtns = document.querySelectorAll('.filter-btn');
-    const projectCards = document.querySelectorAll('.project-card');
-
+    
     filterBtns.forEach((btn) => {
         btn.addEventListener('click', () => {
             document.querySelector('.filter-btn.active')?.classList.remove('active');
@@ -243,6 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const modal = document.getElementById('modal-3d');
     const modalViewer = document.getElementById('modal-viewer');
+    const modalIframe = document.getElementById('modal-iframe');
     const modalClose = document.getElementById('modal-close');
 
     function closeModal() {
@@ -250,6 +283,11 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.overflow = '';
         setTimeout(() => {
             modalViewer.setAttribute('src', '');
+            if (modalIframe) {
+                modalIframe.setAttribute('src', '');
+                modalIframe.style.display = 'none';
+            }
+            modalViewer.style.display = 'block';
             modalViewer.cameraOrbit = 'auto auto auto';
             modalViewer.fieldOfView = 'auto';
         }, 500);
@@ -373,6 +411,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const index = projects.findIndex((project) => project.name === editingName);
             if (index >= 0) {
                 projects[index] = {
+                    ...projects[index],
                     name: projectName,
                     category: projectCategory,
                     image: projectImage,
@@ -400,25 +439,4 @@ document.addEventListener('DOMContentLoaded', () => {
     applyFilter('todas');
     togglePrivilegedView(false);
     closePrivilegedModal();
-
-    if (projectCards.length) {
-        projectCards.forEach((card) => {
-            card.addEventListener('click', () => {
-                if (card.dataset.src && card.dataset.src.trim() !== '') {
-                    const modal = document.getElementById('modal-3d');
-                    const modalViewer = document.getElementById('modal-viewer');
-                    const modalTitle = document.getElementById('modal-title');
-                    modalTitle.textContent = card.dataset.name;
-                    modal.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                    requestAnimationFrame(() => {
-                        setTimeout(() => {
-                            modalViewer.setAttribute('src', card.dataset.src);
-                        }, 150);
-                    });
-                }
-            });
-        });
-    }
 });
-
