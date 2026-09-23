@@ -1,5 +1,5 @@
 const DEFAULT_PASSWORD = 'steban2026';
-const STORAGE_KEY = 'portfolio-privileged-projects';
+const STORAGE_KEY = 'portfolio-privileged-projects-v2';
 
 const defaultProjects = [
     {
