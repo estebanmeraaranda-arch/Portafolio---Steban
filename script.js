@@ -1,53 +1,57 @@
 const DEFAULT_PASSWORD = 'steban2026';
-const STORAGE_KEY = 'portfolio-privileged-projects-v2';
+const STORAGE_KEY = 'portfolio-privileged-projects-v5';
 
 const defaultProjects = [
     {
-        name: 'Chimenea Fabuloso Energía Naranja',
-        category: 'chimeneas',
-        image: 'Assets/Renders/Renders/Chimenea Fabuloso Energia Naranja.png',
-        model: 'Assets/Archivos 3D Portafolio Steban/Chimenea Fabuloso Energia Naranja/Chimenea Fabuloso Energia Naranja.glb'
+        name: 'Balconera Fabuloso Energía Naranja',
+        category: 'balconeras',
+        image: 'Assets/Renders/Balconera Fabuloso Energia Naranja.png',
+        model: 'Assets/Archivos 3D Portafolio Steban/Balconera Fabuloso Energia Naranja/Balconera Fabuloso Energia Naranja.glb'
     },
     {
         name: 'Chimenea Axion Blue 7 en 1',
         category: 'chimeneas',
-        image: 'Assets/Renders/Renders/Chimenea Axion Blue 7 en 1.png',
+        image: 'Assets/Renders/Chimenea Axion Blue 7 en 1.png',
         model: 'Assets/Archivos 3D Portafolio Steban/Chimenea Axion Blue 7 en 1/Chimenea Axion Blue 7 en 1.glb'
     },
     {
         name: 'Chimenea Axion Superioridad',
         category: 'chimeneas',
-        image: 'Assets/Renders/Renders/Chimenea Axion Superioridad.png',
+        image: 'Assets/Renders/Chimenea Axion Superioridad.png',
         model: 'Assets/Archivos 3D Portafolio Steban/Chimenea Axion Superioridad/Chimenea Axion Superioridad.glb'
     },
     {
         name: 'Chimenea Suavitel BBRL',
         category: 'chimeneas',
-        image: 'Assets/Renders/Renders/Chimenea Suavitel BBRL.png',
-        model: 'Assets/Archivos 3D Portafolio Steban/Chimenea Suavitel BBRL/Chimenea Suavitel BBRL.glb'
+        image: 'Assets/Renders/Chimenea Suavitel BBRL.png',
+        model: '',
+        embedType: 'sketchfab',
+        embedUrl: 'https://sketchfab.com/models/6e229879b47e436b91c56335d22d4b53/embed'
     },
     {
         name: 'Columna Luminous White Color Correct',
         category: 'columnas',
-        image: 'Assets/Renders/Renders/CARA COLUMNA LW Color Correct Sinú.682.png',
+        image: 'Assets/Renders/CARA COLUMNA LW Color Correct Sinú.682.png',
         model: 'Assets/Archivos 3D Portafolio Steban/Columna Luminous White Color Correct Alameda del Sinú/Columna Luminous White Color Correct Alameda del Sinú.glb'
     },
     {
         name: 'Columna Suavitel & Fabuloso Avenida 6ta',
         category: 'columnas',
-        image: 'Assets/Renders/Renders/Columna Suavitel BBRL & Fabuloso Alt Cloro Avenida 6ta.png',
-        model: 'Assets/Archivos 3D Portafolio Steban/Columna Suavitel BBRL & Fabuloso Alt Cloro Avenida 6ta/Columna Suavitel & Fabuloso Avenida 6ta.glb'
+        image: 'Assets/Renders/Columna Suavitel BBRL & Fabuloso Alt Cloro Avenida 6ta (2).png',
+        model: '',
+        embedType: 'sketchfab',
+        embedUrl: 'https://sketchfab.com/models/66e576b84c254aee98d279aa4e78414c/embed'
     },
     {
         name: 'Counter Abierto LW Wand',
         category: 'counters',
-        image: 'Assets/Renders/Renders/Counter Abierto LW Wand.png',
+        image: 'Assets/Renders/Counter Abierto LW Wand.png',
         model: 'Assets/Archivos 3D Portafolio Steban/Counter Abierto LW Wand/Counter Abierto LW Wand con Productos.glb'
     },
     {
         name: 'Balconera Suavitel Madres',
         category: 'balconeras',
-        image: 'Assets/Renders/Renders/Balconera Suavitel Madres.png',
+        image: 'Assets/Renders/Balconera Suavitel Madres.png',
         model: 'Assets/Archivos 3D Portafolio Steban/Balconera Suavitel Madres/Balconera Suavitel Madres.glb',
         embedType: 'sketchfab',
         embedUrl: 'https://sketchfab.com/models/6c6f144b5b2b44c5a1605ff8f7cde568/embed'
@@ -55,13 +59,13 @@ const defaultProjects = [
     {
         name: 'Cenefa L Arriba Freshficacia',
         category: 'cenefas',
-        image: 'Assets/Renders/Renders/Cenefa L Arriba Freshficacia.png',
+        image: 'Assets/Renders/Cenefa L Arriba Freshficacia.png',
         model: 'Assets/Archivos 3D Portafolio Steban/Cenefa L Arriba Freshficacia/Cenefa L Arriba Freshficacia.glb'
     },
     {
         name: 'Arco Blancox',
         category: 'arcos',
-        image: 'Assets/Renders/Renders/Arco Blancox.png',
+        image: 'Assets/Renders/Arco Blancox.png',
         model: 'Assets/Archivos 3D Portafolio Steban/Arco Blancox/Arco Blancox.glb',
         embedType: 'sketchfab',
         embedUrl: 'https://sketchfab.com/models/4364133bcf524671b2be2cd964520aa3/embed'
@@ -69,26 +73,22 @@ const defaultProjects = [
     {
         name: 'Bandejas Termoformadas LSS & SS',
         category: 'otros',
-        image: 'Assets/Renders/Renders/Bandejas Termoformadas LSS & SS.png',
-        model: 'Assets/Archivos 3D Portafolio Steban/Bandejas Termoformadas LSS & SS/Bandejas Termoformadas LSS & SS.glb'
+        image: 'Assets/Renders/Bandejas Termoformadas LSS & SS.png',
+        model: '',
+        embedType: 'sketchfab',
+        embedUrl: 'https://sketchfab.com/models/af8f09f5016c4f538f8c9d0e6047f1ba/embed'
     },
     {
         name: 'Glorificador Aceite Gourmet',
         category: 'otros',
-        image: 'Assets/Renders/Renders/Glorificador Aceite Gourmet.png',
+        image: 'Assets/Renders/Glorificador Aceite Gourmet.png',
         model: 'Assets/Archivos 3D Portafolio Steban/Glorificador Aceite Gourmet/Glorificador Aceite Gourmet.glb'
     },
     {
         name: 'Rejilla Éxito Freshficacia',
         category: 'otros',
-        image: 'Assets/Renders/Renders/Rejilla Exito Freshficacia.png',
+        image: 'Assets/Renders/Rejilla Exito Freshficacia.png',
         model: 'Assets/Archivos 3D Portafolio Steban/Rejilla Exito Freshficacia/Rejilla Exito Freshficacia.glb'
-    },
-    {
-        name: 'Columna Suavitel Madres Avenida 6ta',
-        category: 'columnas',
-        image: 'Assets/Renders/Renders/Columna Suavitel Madres Avenida 6ta.png',
-        model: ''
     }
 ];
 
@@ -99,7 +99,22 @@ function loadProjects() {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultProjects));
             return [...defaultProjects];
         }
-        const parsed = JSON.parse(stored);
+        let parsed = JSON.parse(stored);
+        
+        // PARCHE: Corregir en tiempo real las rutas viejas cacheadas en localStorage
+        let updatedCache = false;
+        if (Array.isArray(parsed)) {
+            parsed.forEach(proj => {
+                if (proj.image && proj.image.includes('Assets/Renders/Renders/')) {
+                    proj.image = proj.image.replace('Assets/Renders/Renders/', 'Assets/Renders/');
+                    updatedCache = true;
+                }
+            });
+            if (updatedCache) {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(parsed));
+            }
+        }
+
         if (!Array.isArray(parsed) || parsed.length === 0) {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultProjects));
             return [...defaultProjects];
@@ -186,7 +201,7 @@ function renderProjects(projects) {
             const modalViewer = document.getElementById('modal-viewer');
             const modalIframe = document.getElementById('modal-iframe');
             const modalTitle = document.getElementById('modal-title');
-            
+
             modalTitle.textContent = project.name;
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -203,7 +218,7 @@ function renderProjects(projects) {
                     modalIframe.setAttribute('src', '');
                 }
                 modalViewer.style.display = 'block';
-                
+
                 requestAnimationFrame(() => {
                     setTimeout(() => {
                         modalViewer.setAttribute('src', project.model);
@@ -264,7 +279,7 @@ function applyFilter(filter) {
 
 document.addEventListener('DOMContentLoaded', () => {
     const filterBtns = document.querySelectorAll('.filter-btn');
-    
+
     filterBtns.forEach((btn) => {
         btn.addEventListener('click', () => {
             document.querySelector('.filter-btn.active')?.classList.remove('active');

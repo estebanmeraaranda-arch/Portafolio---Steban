@@ -271,18 +271,14 @@ nav {
     justify-content: center;
     align-items: center;
     height: 100%;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .glow-spot {
-    position: absolute;
-    width: 450px;
-    height: 450px;
-    background: radial-gradient(circle, rgba(0, 229, 255, 0.12) 0%, rgba(0, 0, 0, 0) 70%);
-    z-index: 1;
+    display: none;
+    /* Se oculta para dejar la imagen completamente limpia */
 }
 
-/* Contenedor — overflow:hidden recorta lo que se salga */
 .render-placeholder {
     width: 100%;
     max-width: 550px;
@@ -295,8 +291,7 @@ nav {
     justify-content: center;
     z-index: 2;
     position: relative;
-    right: 4vw; /* Solo la imagen se desplaza al centro */
-    overflow: hidden;
+    overflow: visible;
     padding: 0;
 }
 
@@ -304,16 +299,19 @@ nav {
     border-radius: 10px;
 }
 
-/* Hero render image — grande con zoom, el overflow:hidden del padre la contiene */
+/* Hero render image — mostrarla completa y grande */
 .hero-render-img {
-    width: 115%;
+    width: 120%;
     max-width: none;
     height: auto;
+    max-height: none;
     object-fit: contain;
-    transform: scale(1.15) translateY(40px);
-    transform-origin: center center;
+    /* Movido a la izquierda y hacia abajo */
+    transform: scale(1.9) translate(-20px, 20px);
     border-radius: 0;
-    filter: drop-shadow(0 0 80px rgba(0, 229, 255, 0.1)) drop-shadow(0 30px 60px rgba(0, 0, 0, 0.5));
+
+    /* Sin recortes de ningún tipo para que se vea 100% entera */
+
     animation: heroFloat 6s ease-in-out infinite;
 }
 
@@ -321,12 +319,35 @@ nav {
 
     0%,
     100% {
-        transform: scale(1.15) translateY(40px);
+        transform: scale(1.8) translate(-20px, 20px);
     }
 
     50% {
-        transform: scale(1.15) translateY(26px);
+        transform: scale(1.7) translate(-15px, 15px);
     }
+}
+
+/* Animaciones para alternar entre dos Renders (Fading cruzado) */
+.hero-render-img.img-primary {
+    animation: heroFloat 6s ease-in-out infinite, fadePrimary 12s ease-in-out infinite;
+}
+
+.hero-render-img.img-alternate {
+    position: absolute;
+    /* Al estar en un contenedor flex (render-placeholder), se superpone automáticamente */
+    animation: heroFloat 6s ease-in-out infinite, fadeAlternate 12s ease-in-out infinite;
+}
+
+@keyframes fadePrimary {
+    0%, 45% { opacity: 1; }
+    50%, 95% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes fadeAlternate {
+    0%, 45% { opacity: 0; }
+    50%, 95% { opacity: 1; }
+    100% { opacity: 0; }
 }
 
 /* CAJITAS FLOTANTES (Especificaciones) */
@@ -430,13 +451,33 @@ nav {
     cursor: pointer;
 }
 
-.software-item[data-color='orange'] { --software-color: #ff8a00; }
-.software-item[data-color='amber'] { --software-color: #f4b400; }
-.software-item[data-color='orange-dark'] { --software-color: #ff6a00; }
-.software-item[data-color='blue'] { --software-color: #1f8fff; }
-.software-item[data-color='cyan'] { --software-color: #00d7ff; }
-.software-item[data-color='blue-strong'] { --software-color: #1c63ff; }
-.software-item[data-color='purple'] { --software-color: #a259ff; }
+.software-item[data-color='orange'] {
+    --software-color: #ff8a00;
+}
+
+.software-item[data-color='amber'] {
+    --software-color: #f4b400;
+}
+
+.software-item[data-color='orange-dark'] {
+    --software-color: #ff6a00;
+}
+
+.software-item[data-color='blue'] {
+    --software-color: #1f8fff;
+}
+
+.software-item[data-color='cyan'] {
+    --software-color: #00d7ff;
+}
+
+.software-item[data-color='blue-strong'] {
+    --software-color: #1c63ff;
+}
+
+.software-item[data-color='purple'] {
+    --software-color: #a259ff;
+}
 
 .software-item:hover {
     border-color: var(--software-color, var(--primary-cyan));
