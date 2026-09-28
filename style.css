@@ -301,29 +301,27 @@ nav {
 
 /* Hero render image — mostrarla completa y grande */
 .hero-render-img {
-    width: 120%;
+    height: 95vh;
+    width: auto;
     max-width: none;
-    height: auto;
     max-height: none;
     object-fit: contain;
-    /* Movido a la izquierda y hacia abajo */
-    transform: scale(1.9) translate(-20px, 20px);
+    /* Movido a la izquierda para centrar visualmente con los textos */
+    transform: translateX(-40px);
     border-radius: 0;
 
     /* Sin recortes de ningún tipo para que se vea 100% entera */
-
     animation: heroFloat 6s ease-in-out infinite;
 }
 
 @keyframes heroFloat {
-
     0%,
     100% {
-        transform: scale(1.8) translate(-20px, 20px);
+        transform: translateX(-40px) translateY(0px);
     }
 
     50% {
-        transform: scale(1.7) translate(-15px, 15px);
+        transform: translateX(-40px) translateY(-15px);
     }
 }
 
