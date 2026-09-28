@@ -1,5 +1,5 @@
 const DEFAULT_PASSWORD = 'steban2026';
-const STORAGE_KEY = 'portfolio-privileged-projects-v5';
+const STORAGE_KEY = 'portfolio-privileged-projects-v6';
 
 const defaultProjects = [
     {
@@ -46,7 +46,9 @@ const defaultProjects = [
         name: 'Counter Abierto LW Wand',
         category: 'counters',
         image: 'Assets/Renders/Counter Abierto LW Wand.png',
-        model: 'Assets/Archivos 3D Portafolio Steban/Counter Abierto LW Wand/Counter Abierto LW Wand con Productos.glb'
+        model: 'Assets/Archivos 3D Portafolio Steban/Counter Abierto LW Wand/Counter Abierto LW Wand con Productos.glb',
+        embedType: 'sketchfab',
+        embedUrl: 'https://sketchfab.com/models/263f5b9ac75640418585ed6aa0b33ed3/embed'
     },
     {
         name: 'Balconera Suavitel Madres',
