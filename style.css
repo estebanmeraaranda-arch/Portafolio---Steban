@@ -160,8 +160,8 @@ nav {
     display: flex;
     align-items: center;
     padding: 0 5%;
-    padding-top: 120px;
-    padding-bottom: 40px;
+    padding-top: 90px;
+    padding-bottom: 30px;
     position: relative;
     overflow: visible;
     box-sizing: border-box;
@@ -188,7 +188,7 @@ nav {
 
 .hero-tag {
     color: var(--primary-cyan);
-    font-size: 0.75rem;
+    font-size: 0.65rem;
     letter-spacing: 2px;
     text-transform: uppercase;
     margin-bottom: 0.8rem;
@@ -197,9 +197,9 @@ nav {
 
 /* Tipografía escalada para que quepa */
 .hero h1 {
-    font-size: clamp(2.5rem, 4.5vw, 4.2rem);
+    font-size: clamp(2rem, 3.5vw, 3.5rem);
     line-height: 1.1;
-    margin-bottom: 1.2rem;
+    margin-bottom: 1rem;
 }
 
 .hero h1 .cyan-text {
@@ -214,9 +214,9 @@ nav {
 
 .hero p {
     color: var(--text-gray);
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     max-width: 450px;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.2rem;
     line-height: 1.6;
 }
 
@@ -307,8 +307,8 @@ nav {
     height: auto;
     max-height: none;
     object-fit: contain;
-    /* Movido a la izquierda y hacia abajo */
-    transform: scale(1.9) translate(-20px, 20px);
+    /* Movido a la izquierda y hacia abajo, escalado un 20% menos (1.5) */
+    transform: scale(1.5) translate(-20px, 20px);
     border-radius: 0;
 
     /* Sin recortes de ningún tipo para que se vea 100% entera */
@@ -320,11 +320,11 @@ nav {
 
     0%,
     100% {
-        transform: scale(1.8) translate(-20px, 20px);
+        transform: scale(1.5) translate(-20px, 20px);
     }
 
     50% {
-        transform: scale(1.7) translate(-15px, 15px);
+        transform: scale(1.4) translate(-15px, 15px);
     }
 }
 
