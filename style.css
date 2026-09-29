@@ -272,7 +272,7 @@ nav {
     justify-content: center;
     align-items: center;
     height: 100%;
-    overflow: visible;
+    overflow: hidden;
 }
 
 .glow-spot {
@@ -302,17 +302,13 @@ nav {
 
 /* Hero render image — mostrarla completa y grande */
 .hero-render-img {
-    width: 120%;
-    max-width: none;
+    width: 100%;
+    max-width: 600px;
     height: auto;
-    max-height: none;
+    max-height: 76vh;
     object-fit: contain;
-    /* Movido a la izquierda y hacia abajo, escalado un 20% menos (1.5) */
-    transform: scale(1.5) translate(-20px, 20px);
+    transform: scale(1.08) translate(-8px, 8px);
     border-radius: 0;
-
-    /* Sin recortes de ningún tipo para que se vea 100% entera */
-
     animation: heroFloat 6s ease-in-out infinite;
 }
 
@@ -320,11 +316,11 @@ nav {
 
     0%,
     100% {
-        transform: scale(1.5) translate(-20px, 20px);
+        transform: scale(1.08) translate(-8px, 8px);
     }
 
     50% {
-        transform: scale(1.4) translate(-15px, 15px);
+        transform: scale(1.04) translate(-6px, 6px);
     }
 }
 
@@ -597,7 +593,7 @@ nav {
 
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 270px), 1fr));
     gap: 2rem;
 }
 
@@ -651,7 +647,8 @@ nav {
 .card-render-img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    padding: 0.5rem;
     transition: transform 0.5s ease, filter 0.5s ease;
 }
 
@@ -724,6 +721,11 @@ nav {
 .project-admin-btn.edit:hover {
     border-color: var(--primary-cyan);
     color: var(--primary-cyan);
+}
+
+.project-card.privileged .card-3d-badge {
+    left: 12px;
+    right: auto;
 }
 
 .project-info {
@@ -842,7 +844,7 @@ nav {
 .modal-content {
     width: 90%;
     max-width: 900px;
-    height: 80vh;
+    height: min(80vh, 760px);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1185,50 +1187,150 @@ footer {
 
 /* ================= RESPONSIVE ================= */
 @media (max-width: 768px) {
+    nav {
+        flex-wrap: wrap;
+        gap: 0.65rem 1rem;
+        padding: 0.75rem 5%;
+    }
+
+    .nav-links {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        gap: 0.4rem 0.7rem;
+        flex-wrap: wrap;
+    }
+
+    .nav-links a {
+        font-size: 0.68rem;
+        letter-spacing: 0.04em;
+    }
+
+    .btn-contact {
+        padding: 0.35rem 0.65rem;
+    }
+
     .hero {
         height: auto;
-        min-height: 100vh;
-        padding-top: 100px;
-        padding-bottom: 40px;
+        min-height: auto;
+        padding: 125px 5% 36px;
         flex-direction: column;
         overflow: hidden;
+        gap: 0.5rem;
     }
 
     .hero-content {
         width: 100%;
     }
 
-    .about-section {
-        flex-direction: column;
-        grid-template-columns: 1fr;
+    .hero h1 {
+        font-size: clamp(2rem, 8vw, 3rem);
     }
 
-    .nav-links {
-        display: none;
+    .hero p {
+        font-size: 0.95rem;
+    }
+
+    .hero-buttons {
+        flex-wrap: wrap;
+    }
+
+    .about-section {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1.25rem;
+        padding: 3.5rem 5%;
+    }
+
+    .about-card,
+    .skills-card {
+        min-width: 0;
+        padding: clamp(1.25rem, 5vw, 2rem);
+    }
+
+    .software-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.65rem;
+        margin-top: 1.25rem;
+    }
+
+    .software-item {
+        min-width: 0;
+        padding: 1rem 0.5rem;
+        overflow-wrap: anywhere;
+    }
+
+    .projects-section {
+        padding: 4rem 5%;
+    }
+
+    .projects-header h2 {
+        font-size: clamp(1.8rem, 7vw, 2.5rem);
+    }
+
+    .filters {
+        gap: 0.55rem;
+    }
+
+    .filter-btn {
+        padding: 0.55rem 0.85rem;
+        font-size: 0.82rem;
     }
 
     .hero-visual {
         width: 100%;
-        margin-top: 20px;
+        height: clamp(250px, 72vw, 390px);
+        margin-top: 0.5rem;
+        overflow: hidden;
+    }
+
+    .render-placeholder {
+        width: 100%;
+        height: 100%;
         overflow: hidden;
     }
 
     .hero-render-img {
-        max-height: 50vh;
+        height: 100%;
         width: 100%;
-        transform: scale(1);
+        max-height: 100%;
+        object-fit: contain;
+        transform: scale(1.02);
     }
 
     @keyframes heroFloat {
 
         0%,
         100% {
-            transform: scale(1) translateY(0);
+            transform: scale(1.02) translateY(0);
         }
 
         50% {
-            transform: scale(1) translateY(-10px);
+            transform: scale(1.02) translateY(-6px);
         }
+    }
+
+    .card-top {
+        top: 8%;
+        right: 4px;
+    }
+
+    .card-bottom {
+        bottom: 8%;
+        left: 4px;
+    }
+
+    .project-card {
+        height: clamp(260px, 82vw, 350px);
+    }
+
+    .project-info {
+        bottom: 0;
+        padding: 1rem;
+        opacity: 1;
+    }
+
+    .project-info h3 {
+        font-size: 0.95rem;
     }
 
     .card-top {
@@ -1243,7 +1345,7 @@ footer {
 
     .modal-content {
         width: 95%;
-        height: 70vh;
+        height: min(72vh, 620px);
     }
 
     .modal-close {
@@ -1258,5 +1360,41 @@ footer {
 
     .about-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 380px) {
+    .nav-links {
+        justify-content: flex-start;
+        column-gap: 0.85rem;
+    }
+
+    .hero {
+        padding-top: 140px;
+    }
+
+    .hero-badge {
+        font-size: 0.78rem;
+    }
+
+    .hero-buttons > a {
+        flex: 1 1 100%;
+        text-align: center;
+    }
+
+    .admin-panel {
+        padding: 1rem;
+    }
+
+    .admin-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+@media (hover: none), (pointer: coarse) {
+    .project-info {
+        bottom: 0;
+        opacity: 1;
     }
 }
