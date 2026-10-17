@@ -32,6 +32,12 @@
         </div>
     </nav>
 
+    <button id="privileged-toggle" class="privileged-toggle" aria-label="Modo privilegiado" title="Modo privilegiado">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z"></path>
+        </svg>
+    </button>
+
     <!-- HERO SOBRE MÍ -->
     <section class="about-hero">
         <div class="about-hero-content">
@@ -45,6 +51,53 @@
                 planos de fabricación precisos. Capacidad técnica para gestionar todo el ciclo del producto: desde la
                 conceptualización y selección de materiales hasta el prototipado y la viabilidad productiva.
             </p>
+        </div>
+
+        <div id="admin-panel" class="admin-panel about-admin-panel hidden" aria-live="polite">
+            <div class="admin-header">
+                <div>
+                    <h3>Modo privilegiado (Admin — Sobre Mí)</h3>
+                    <p class="admin-help-text">💡 Haz clic sobre cualquier texto o enlace (Contacto, Correo, Instagram) para editarlo y pulsa "Guardar textos".</p>
+                </div>
+                <div class="admin-header-actions">
+                    <button id="save-all-texts-btn" class="btn-primary admin-action-btn" type="button">💾 Guardar textos</button>
+                    <button id="reset-texts-btn" class="ghost-button" type="button">Restaurar textos</button>
+                    <button id="logout-privileged" class="ghost-button" type="button">Cerrar sesión</button>
+                </div>
+            </div>
+
+            <div id="admin-links-section" class="admin-block">
+                <h4 class="admin-block-title">Enlaces de Contacto y Redes ( también puedes hacer clic directo sobre ellos )</h4>
+                <form id="links-form" class="links-form">
+                    <div class="field-group">
+                        <label for="link-contact-text">Texto botón Contactar (Nav)</label>
+                        <input id="link-contact-text" type="text" placeholder="CONTACTAR">
+                    </div>
+                    <div class="field-group">
+                        <label for="link-contact-href">Destino botón Contactar (mailto: o URL)</label>
+                        <input id="link-contact-href" type="text" placeholder="mailto:correo@gmail.com o https://wa.me/...">
+                    </div>
+                    <div class="field-group">
+                        <label for="link-email-text">Texto Correo (Footer)</label>
+                        <input id="link-email-text" type="text" placeholder="stebangomezlopez1224@gmail.com">
+                    </div>
+                    <div class="field-group">
+                        <label for="link-email-href">Destino Correo (mailto: o URL)</label>
+                        <input id="link-email-href" type="text" placeholder="mailto:stebangomezlopez1224@gmail.com">
+                    </div>
+                    <div class="field-group">
+                        <label for="link-ig-text">Texto Instagram / Red Social</label>
+                        <input id="link-ig-text" type="text" placeholder="@stebitannn">
+                    </div>
+                    <div class="field-group">
+                        <label for="link-ig-href">URL de Instagram / Red Social</label>
+                        <input id="link-ig-href" type="text" placeholder="https://instagram.com/stebitannn">
+                    </div>
+                    <div class="project-form-actions field-group-full">
+                        <button type="submit" class="btn-primary admin-submit">Guardar enlaces</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </section>
 
@@ -61,7 +114,6 @@
                     consumidor al instante.
                 </p>
                 <p>
-
                     A través del modelado 3D y el diseño industrial, aseguro que cada material POP responda con
                     precisión a los objetivos de visibilidad y estrategia de cada marca.
                 </p>
@@ -80,7 +132,7 @@
                         tridimensionales detallados con renderizado fotorrealista para visualizar el proyecto antes de
                         fabricarlo.</li>
                     <li><strong>3. Prototipos Visuales & Pruebas:</strong> Elaboración de maquetas visuales o a escala y
-                        validación de pruebas de color según los requerimientos del caso.
+                        validación de pruebas de color según los requerimientos del caso.</li>
                     <li><strong>4. Producción & Impacto:</strong> Ajuste de artes finales y entrega de exhibidores
                         listos para destacar y potenciar las ventas en retail.</li>
                 </ul>
@@ -138,6 +190,18 @@
         </div>
     </section>
 
+    <div id="privileged-modal" class="privileged-modal hidden" aria-hidden="true">
+        <div class="privileged-modal-content">
+            <button id="close-privileged-modal" class="modal-close" aria-label="Cerrar">&times;</button>
+            <h3>Modo privilegiado</h3>
+            <p>Accede a las herramientas para editar cualquier texto, gestionar proyectos y actualizar la hoja de vida.</p>
+            <label class="sr-only" for="privileged-password">Contraseña</label>
+            <input id="privileged-password" type="password" placeholder="Contraseña" autocomplete="current-password">
+            <button id="access-privileged" class="btn-primary" type="button">Entrar</button>
+            <small>Contraseña por defecto: steban2026</small>
+        </div>
+    </div>
+
     <!-- FOOTER ENRIQUECIDO -->
     <footer>
         <div class="footer-container">
@@ -181,6 +245,17 @@
         </div>
     </footer>
 
+    <!-- Arquitectura POO Modular -->
+    <script src="js/config/AppConfig.js"></script>
+    <script src="js/services/NotificationService.js"></script>
+    <script src="js/services/StorageService.js"></script>
+    <script src="js/modules/ModalViewer3D.js"></script>
+    <script src="js/modules/ProjectManager.js"></script>
+    <script src="js/modules/TextEditorManager.js"></script>
+    <script src="js/modules/LinkEditorManager.js"></script>
+    <script src="js/modules/CvManager.js"></script>
+    <script src="js/modules/AdminController.js"></script>
+    <script src="js/main.js"></script>
 </body>
 
 </html>

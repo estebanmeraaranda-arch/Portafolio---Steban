@@ -62,8 +62,9 @@
 
             <!-- Botones dobles -->
             <div class="hero-buttons">
-                <a href="#proyectos" class="btn-primary">VER PROYECTOS</a>
-                <a href="#" class="btn-secondary">DESCARGAR CV</a>
+                <a href="#proyectos" class="btn-primary" data-editable="index.hero-btn-projects">VER PROYECTOS</a>
+                <a href="#" id="download-cv-btn" class="btn-secondary" data-editable="index.hero-btn-cv">DESCARGAR CV</a>
+                <button type="button" id="quick-update-cv-btn" class="btn-admin-action hidden">📄 Actualizar CV</button>
             </div>
         </div>
 
@@ -72,10 +73,10 @@
 
             <!-- Cajitas superpuestas (Habilidades) -->
             <div class="floating-card card-top">
-                <span class="dot cyan"></span> Exhibidores para Retail
+                <span class="dot cyan"></span> <span data-editable="index.floating-top">Exhibidores para Retail</span>
             </div>
             <div class="floating-card card-bottom">
-                <span class="dot blue"></span> Modelado 3D fotorrealista
+                <span class="dot blue"></span> <span data-editable="index.floating-bottom">Modelado 3D fotorrealista</span>
             </div>
 
             <!-- Render destacado en el Hero (Alternando dos imágenes) -->
@@ -129,38 +130,109 @@
 
         <div id="admin-panel" class="admin-panel hidden" aria-live="polite">
             <div class="admin-header">
-                <h3>Modo privilegiado</h3>
-                <button id="logout-privileged" class="ghost-button" type="button">Cerrar sesión</button>
+                <div>
+                    <h3>Modo privilegiado (Admin)</h3>
+                    <p class="admin-help-text">💡 Puedes hacer clic directamente sobre cualquier texto de la página (Inicio o Sobre mí) para editarlo.</p>
+                </div>
+                <div class="admin-header-actions">
+                    <button id="save-all-texts-btn" class="btn-primary admin-action-btn" type="button">💾 Guardar textos</button>
+                    <button id="reset-texts-btn" class="ghost-button" type="button">Restaurar textos</button>
+                    <button id="logout-privileged" class="ghost-button" type="button">Cerrar sesión</button>
+                </div>
             </div>
 
-            <form id="project-form" class="project-form">
-                <div class="field-group">
-                    <label for="project-name">Nombre del proyecto</label>
-                    <input id="project-name" name="project-name" type="text" placeholder="Ej. Display Premium" required>
+            <div class="admin-sections-grid">
+                <div class="admin-block">
+                    <h4 id="project-form-title" class="admin-block-title">Agregar / Editar Proyecto</h4>
+                    <form id="project-form" class="project-form">
+                        <div class="field-group">
+                            <label for="project-name">Nombre del proyecto</label>
+                            <input id="project-name" name="project-name" type="text" placeholder="Ej. Display Premium" required>
+                        </div>
+                        <div class="field-group">
+                            <label for="project-category">Categoría</label>
+                            <select id="project-category" name="project-category">
+                                <option value="chimeneas">Chimeneas</option>
+                                <option value="columnas">Columnas</option>
+                                <option value="counters">Counters</option>
+                                <option value="balconeras">Balconeras</option>
+                                <option value="cenefas">Cenefas</option>
+                                <option value="arcos">Arcos</option>
+                                <option value="otros">Otros</option>
+                            </select>
+                        </div>
+                        <div class="field-group">
+                            <label for="project-image">URL o ruta de imagen</label>
+                            <input id="project-image" name="project-image" type="text" placeholder="Assets/Renders/... o https://..."
+                                required>
+                        </div>
+                        <div class="field-group">
+                            <label for="project-model">URL o ruta del modelo 3D (opcional)</label>
+                            <input id="project-model" name="project-model" type="text" placeholder="Assets/.../modelo.glb o https://...">
+                        </div>
+                        <div class="field-group field-group-full">
+                            <label for="project-description">Descripción del proyecto</label>
+                            <textarea id="project-description" name="project-description" rows="3"
+                                placeholder="Describe el proyecto, materiales, dimensiones o propósito comercial en punto de venta..."></textarea>
+                        </div>
+                        <div class="project-form-actions field-group-full">
+                            <button type="submit" id="project-submit-btn" class="btn-primary admin-submit">Agregar proyecto</button>
+                            <button type="button" id="project-cancel-edit" class="ghost-button hidden">Cancelar edición</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="field-group">
-                    <label for="project-category">Categoría</label>
-                    <select id="project-category" name="project-category">
-                        <option value="chimeneas">Chimeneas</option>
-                        <option value="columnas">Columnas</option>
-                        <option value="counters">Counters</option>
-                        <option value="balconeras">Balconeras</option>
-                        <option value="cenefas">Cenefas</option>
-                        <option value="arcos">Arcos</option>
-                        <option value="otros">Otros</option>
-                    </select>
+
+                <div id="admin-cv-section" class="admin-block">
+                    <h4 class="admin-block-title">Hoja de Vida (CV)</h4>
+                    <form id="cv-form" class="cv-form">
+                        <div class="field-group">
+                            <label for="cv-file-input">Subir archivo de Hoja de Vida (PDF, DOC, DOCX)</label>
+                            <input id="cv-file-input" name="cv-file" type="file" accept=".pdf,.doc,.docx">
+                        </div>
+                        <div class="field-group">
+                            <label for="cv-url-input">O indicar enlace / ruta del archivo CV</label>
+                            <input id="cv-url-input" name="cv-url" type="text" placeholder="Ej. Assets/CV_Steban_Gomez.pdf o enlace externo">
+                        </div>
+                        <p id="cv-current-status" class="cv-status-text">Archivo actual: Predeterminado</p>
+                        <div class="project-form-actions">
+                            <button type="submit" class="btn-primary admin-submit">Guardar Hoja de Vida</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="field-group">
-                    <label for="project-image">URL de imagen</label>
-                    <input id="project-image" name="project-image" type="url" placeholder="https://.../imagen.jpg"
-                        required>
+
+                <div id="admin-links-section" class="admin-block admin-block-full">
+                    <h4 class="admin-block-title">Enlaces de Contacto y Redes ( también puedes hacer clic directo sobre ellos en la página )</h4>
+                    <form id="links-form" class="links-form">
+                        <div class="field-group">
+                            <label for="link-contact-text">Texto botón Contactar (Nav)</label>
+                            <input id="link-contact-text" type="text" placeholder="CONTACTAR">
+                        </div>
+                        <div class="field-group">
+                            <label for="link-contact-href">Destino botón Contactar (mailto: o URL)</label>
+                            <input id="link-contact-href" type="text" placeholder="mailto:correo@gmail.com o https://wa.me/...">
+                        </div>
+                        <div class="field-group">
+                            <label for="link-email-text">Texto Correo (Footer)</label>
+                            <input id="link-email-text" type="text" placeholder="stebangomezlopez1224@gmail.com">
+                        </div>
+                        <div class="field-group">
+                            <label for="link-email-href">Destino Correo (mailto: o URL)</label>
+                            <input id="link-email-href" type="text" placeholder="mailto:stebangomezlopez1224@gmail.com">
+                        </div>
+                        <div class="field-group">
+                            <label for="link-ig-text">Texto Instagram / Red Social</label>
+                            <input id="link-ig-text" type="text" placeholder="@stebitannn">
+                        </div>
+                        <div class="field-group">
+                            <label for="link-ig-href">URL de Instagram / Red Social</label>
+                            <input id="link-ig-href" type="text" placeholder="https://instagram.com/stebitannn">
+                        </div>
+                        <div class="project-form-actions field-group-full">
+                            <button type="submit" class="btn-primary admin-submit">Guardar enlaces</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="field-group">
-                    <label for="project-model">URL del modelo 3D (opcional)</label>
-                    <input id="project-model" name="project-model" type="url" placeholder="https://.../modelo.glb">
-                </div>
-                <button type="submit" class="btn-primary admin-submit">Agregar proyecto</button>
-            </form>
+            </div>
         </div>
 
         <div class="projects-grid">
@@ -385,6 +457,8 @@
                 <iframe id="modal-iframe" title="Visor 3D Sketchfab" frameborder="0" allowfullscreen
                     allow="autoplay; fullscreen; xr-spatial-tracking"
                     style="width: 100%; height: 100%; border: none; display: none;"></iframe>
+                <img id="modal-image-fallback" alt="Vista previa del proyecto"
+                    style="width: 100%; height: 100%; object-fit: contain; display: none; padding: 1rem;">
                 <model-viewer id="modal-viewer" src="" alt="Visor 3D del proyecto" auto-rotate auto-rotate-delay="0"
                     rotation-per-second="30deg" camera-controls touch-action="pan-y" interaction-prompt="none"
                     loading="lazy" reveal="auto" shadow-intensity="0.4" shadow-softness="0.6" exposure="1"
@@ -396,7 +470,17 @@
                     </div>
                 </model-viewer>
             </div>
-            <p class="modal-hint">Arrastra para rotar · usa la rueda para acercar · explora cada detalle del modelo</p>
+            <p id="modal-hint" class="modal-hint">Arrastra para rotar · usa la rueda para acercar · explora cada detalle del modelo</p>
+            <div id="modal-description-box" class="modal-description-box">
+                <p id="modal-description" class="modal-description"></p>
+                <div id="modal-admin-desc-editor" class="modal-admin-desc-editor hidden">
+                    <label for="modal-desc-textarea">Editar descripción del proyecto (Modo Admin)</label>
+                    <div class="modal-admin-desc-row">
+                        <textarea id="modal-desc-textarea" rows="2" placeholder="Escribe o actualiza la descripción de este proyecto..."></textarea>
+                        <button type="button" id="modal-save-desc-btn" class="btn-primary">Guardar descripción</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -404,7 +488,7 @@
         <div class="privileged-modal-content">
             <button id="close-privileged-modal" class="modal-close" aria-label="Cerrar">&times;</button>
             <h3>Modo privilegiado</h3>
-            <p>Accede a las herramientas para gestionar los proyectos destacados del portafolio.</p>
+            <p>Accede a las herramientas para editar cualquier texto, gestionar proyectos y actualizar la hoja de vida.</p>
             <label class="sr-only" for="privileged-password">Contraseña</label>
             <input id="privileged-password" type="password" placeholder="Contraseña" autocomplete="current-password">
             <button id="access-privileged" class="btn-primary" type="button">Entrar</button>
@@ -455,7 +539,17 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- Arquitectura POO Modular -->
+    <script src="js/config/AppConfig.js"></script>
+    <script src="js/services/NotificationService.js"></script>
+    <script src="js/services/StorageService.js"></script>
+    <script src="js/modules/ModalViewer3D.js"></script>
+    <script src="js/modules/ProjectManager.js"></script>
+    <script src="js/modules/TextEditorManager.js"></script>
+    <script src="js/modules/LinkEditorManager.js"></script>
+    <script src="js/modules/CvManager.js"></script>
+    <script src="js/modules/AdminController.js"></script>
+    <script src="js/main.js"></script>
 </body>
 
 </html>
