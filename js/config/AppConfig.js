@@ -17,6 +17,9 @@ class AppConfig {
         PROJECTS: 'portfolio-privileged-projects-v6',
         TEXTS: 'portfolio-editable-texts-v1',
         LINKS: 'portfolio-editable-links-v1',
+        CATEGORIES: 'portfolio-categories-v1',
+        SOFTWARE: 'portfolio-software-stack-v1',
+        ADMIN_PASSWORD: 'portfolio-admin-custom-pass-v1',
         ADMIN_SESSION: 'portfolio-admin-session-active',
         CV_META: 'portfolio-cv-meta-v1'
     };
@@ -27,6 +30,61 @@ class AppConfig {
         STORE: 'cv-files',
         RECORD_KEY: 'current-cv'
     };
+
+    static DEFAULT_CATEGORIES = [
+        { slug: 'chimeneas', label: 'Chimeneas' },
+        { slug: 'columnas', label: 'Columnas' },
+        { slug: 'counters', label: 'Counters' },
+        { slug: 'balconeras', label: 'Balconeras' },
+        { slug: 'cenefas', label: 'Cenefas' },
+        { slug: 'arcos', label: 'Arcos' },
+        { slug: 'otros', label: 'Otros' }
+    ];
+
+    static DEFAULT_SOFTWARE = [
+        {
+            id: 'rhinoceros',
+            name: 'Rhinoceros',
+            color: 'orange',
+            description: 'Modelado tridimensional de superficies complejas, estructuras para retail y desarrollo geométrico de piezas.'
+        },
+        {
+            id: 'keyshot',
+            name: 'Keyshot',
+            color: 'amber',
+            description: 'Renderizado fotorrealista avanzado para la previsualización de materiales, texturas e iluminación en entornos comerciales.'
+        },
+        {
+            id: 'illustrator',
+            name: 'Adobe Ilustrator',
+            color: 'orange-dark',
+            description: 'Creación de gráficos vectoriales, diagramación de artes finales y preparación de archivos para preproducción.'
+        },
+        {
+            id: 'photoshop',
+            name: 'Adobe Photoshop',
+            color: 'blue',
+            description: 'Edición avanzada de imágenes, retoque fotográfico, creación de texturas y postproducción de renders.'
+        },
+        {
+            id: 'inventor',
+            name: 'Inventor',
+            color: 'cyan',
+            description: 'Modelado paramétrico y diseño mecánico orientado a la validación estructural de componentes y ensamblajes.'
+        },
+        {
+            id: 'autocad',
+            name: 'AutoCAD',
+            color: 'blue-strong',
+            description: 'Elaboración de planos técnicos precisos, despieces y esquemas de montaje para la fabricación.'
+        },
+        {
+            id: '3dsmax',
+            name: '3D Max',
+            color: 'purple',
+            description: 'Modelado poligonal y simulación de espacios comerciales complejos para presentaciones de alto impacto.'
+        }
+    ];
 
     static DEFAULT_LINKS = {
         contactBtn: {
@@ -156,6 +214,13 @@ class AppConfig {
             image: 'Assets/Renders/Rejilla Exito Freshficacia.png',
             model: 'Assets/Archivos 3D Portafolio Steban/Rejilla Exito Freshficacia/Rejilla Exito Freshficacia.glb',
             description: 'Exhibidor de rejilla lateral para almacenes Éxito, optimizado para exhibición cruzada, fácil reposición y resistencia estructural en tráfico pesado.'
+        },
+        {
+            name: 'Columna Suavitel Madres Avenida 6ta',
+            category: 'columnas',
+            image: 'Assets/Renders/Columna Suavitel Madres Avenida 6ta.png',
+            model: '',
+            description: 'Columna promocional de alto impacto visual diseñada para la campaña Día de las Madres de Suavitel en Avenida 6ta.'
         }
     ];
 }

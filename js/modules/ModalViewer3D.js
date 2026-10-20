@@ -14,6 +14,7 @@ class ModalViewer3D {
 
         this.onSaveDescription = onSaveDescription;
         this.currentProjectName = null;
+        this.currentProject = null;
         this.isAdminActive = false;
     }
 
@@ -36,6 +37,15 @@ class ModalViewer3D {
             }
         });
 
+        // Fallback automático a la imagen render si el archivo .glb no existe o falla al cargar
+        if (this.modalViewer) {
+            this.modalViewer.addEventListener('error', () => {
+                if (this.currentProject && this.currentProject.image) {
+                    this.showImageFallback(this.currentProject);
+                }
+            });
+        }
+
         if (this.modalSaveDescBtn) {
             this.modalSaveDescBtn.addEventListener('click', () => {
                 if (!this.currentProjectName || typeof this.onSaveDescription !== 'function') return;
@@ -45,9 +55,29 @@ class ModalViewer3D {
         }
     }
 
+    showImageFallback(project) {
+        if (this.modalViewer) {
+            this.modalViewer.style.display = 'none';
+            this.modalViewer.removeAttribute('src');
+        }
+        if (this.modalIframe) {
+            this.modalIframe.style.display = 'none';
+            this.modalIframe.setAttribute('src', '');
+        }
+        if (this.modalImageFallback) {
+            this.modalImageFallback.src = project.image;
+            this.modalImageFallback.alt = project.name;
+            this.modalImageFallback.style.display = 'block';
+        }
+        if (this.modalHint) {
+            this.modalHint.textContent = 'Render de alta resolución del proyecto';
+        }
+    }
+
     open(project) {
         if (!this.modal || !project) return;
 
+        this.currentProject = project;
         this.currentProjectName = project.name;
         if (this.modalTitle) {
             this.modalTitle.textContent = project.name;
@@ -79,26 +109,14 @@ class ModalViewer3D {
                 requestAnimationFrame(() => {
                     setTimeout(() => {
                         this.modalViewer.setAttribute('src', project.model);
-                    }, 150);
+                    }, 100);
                 });
             }
             if (this.modalHint) {
                 this.modalHint.textContent = 'Arrastra para rotar · usa la rueda para acercar · explora cada detalle del modelo';
             }
         } else {
-            if (this.modalViewer) this.modalViewer.style.display = 'none';
-            if (this.modalIframe) {
-                this.modalIframe.style.display = 'none';
-                this.modalIframe.setAttribute('src', '');
-            }
-            if (this.modalImageFallback) {
-                this.modalImageFallback.src = project.image;
-                this.modalImageFallback.alt = project.name;
-                this.modalImageFallback.style.display = 'block';
-            }
-            if (this.modalHint) {
-                this.modalHint.textContent = 'Vista previa del proyecto';
-            }
+            this.showImageFallback(project);
         }
     }
 
@@ -127,10 +145,11 @@ class ModalViewer3D {
         this.modal.classList.remove('active');
         document.body.style.overflow = '';
         this.currentProjectName = null;
+        this.currentProject = null;
 
         setTimeout(() => {
             if (this.modalViewer) {
-                this.modalViewer.setAttribute('src', '');
+                this.modalViewer.removeAttribute('src');
                 this.modalViewer.style.display = 'block';
                 this.modalViewer.cameraOrbit = 'auto auto auto';
                 this.modalViewer.fieldOfView = 'auto';

@@ -1787,4 +1787,177 @@ footer {
         flex-direction: column;
         align-items: flex-start;
     }
-}
+}
+
+/* ================= QA: CATEGORÍAS DINÁMICAS, STACK DE SOFTWARE Y SEGURIDAD ================= */
+.filter-pill-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.filter-delete-chip {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 107, 107, 0.65);
+    background: #140b12;
+    color: #ff6b6b;
+    font-size: 0.78rem;
+    font-weight: 700;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 4;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.filter-delete-chip:hover {
+    background: #ff6b6b;
+    color: #fff;
+    transform: scale(1.12);
+}
+
+.filter-add-btn {
+    border-style: dashed !important;
+    border-color: var(--primary-cyan) !important;
+    color: var(--primary-cyan) !important;
+    font-weight: 600;
+}
+
+.filter-add-btn:hover {
+    background: rgba(0, 229, 255, 0.12) !important;
+}
+
+.admin-categories-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.admin-category-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: rgba(0, 229, 255, 0.1);
+    border: 1px solid rgba(0, 229, 255, 0.3);
+    color: var(--text-light);
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+}
+
+.admin-category-chip button {
+    background: transparent;
+    border: none;
+    color: #ff6b6b;
+    font-size: 1rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 2px;
+}
+
+.software-item {
+    position: relative;
+}
+
+.software-delete-btn {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 80, 80, 0.45);
+    background: rgba(255, 255, 255, 0.95);
+    color: #d32f2f;
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.software-delete-btn:hover {
+    background: #d32f2f;
+    color: #ffffff;
+    transform: scale(1.1);
+}
+
+.software-add-pill {
+    border: 1.5px dashed var(--primary-blue) !important;
+    background: rgba(41, 98, 255, 0.06) !important;
+    color: var(--primary-blue) !important;
+    font-weight: 700;
+}
+
+.software-add-pill:hover {
+    background: rgba(41, 98, 255, 0.14) !important;
+}
+
+.software-card {
+    position: relative;
+}
+
+.software-card-delete {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 107, 107, 0.45);
+    background: rgba(13, 20, 36, 0.9);
+    color: #ff6b6b;
+    font-size: 1rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.software-card-delete:hover {
+    background: #ff6b6b;
+    color: #fff;
+}
+
+.privileged-modal-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.85rem;
+    flex-wrap: wrap;
+    margin-top: 0.25rem;
+}
+
+.forgot-password-link {
+    font-size: 0.84rem;
+    color: var(--primary-cyan);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.forgot-password-link:hover {
+    opacity: 0.8;
+}
+
+.admin-file-compact {
+    margin-top: 0.35rem;
+    font-size: 0.76rem;
+    padding: 0.4rem !important;
+    cursor: pointer;
+}
+

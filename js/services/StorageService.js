@@ -26,6 +26,15 @@ class StorageService {
         }
     }
 
+    onPasswordRecovery(callback) {
+        if (!this.supabase || typeof callback !== 'function') return;
+        this.supabase.auth.onAuthStateChange((event, session) => {
+            if (event === 'PASSWORD_RECOVERY') {
+                callback(session);
+            }
+        });
+    }
+
     async signInAdmin(email, password) {
         if (!this.supabase) {
             return { ok: false, error: 'Cliente Supabase no disponible' };
@@ -42,6 +51,56 @@ class StorageService {
         } catch (err) {
             return { ok: false, error: err.message || 'Error de red al autenticar' };
         }
+    }
+
+    async sendPasswordRecoveryEmail(email) {
+        if (!this.supabase) {
+            return { ok: false, error: 'Cliente Supabase no disponible' };
+        }
+        try {
+            const redirectTo = `${window.location.origin}${window.location.pathname}`;
+            const { error } = await this.supabase.auth.resetPasswordForEmail(email.trim(), {
+                redirectTo
+            });
+            if (error) {
+                return { ok: false, error: error.message };
+            }
+            return { ok: true };
+        } catch (err) {
+            return { ok: false, error: err.message || 'Error enviando correo de recuperación' };
+        }
+    }
+
+    getEffectiveAdminPassword() {
+        const customPass = this.getJSON(AppConfig.STORAGE_KEYS.ADMIN_PASSWORD, null);
+        if (customPass && typeof customPass === 'string' && customPass.trim().length > 0) {
+            return customPass.trim();
+        }
+        return AppConfig.DEFAULT_PASSWORD;
+    }
+
+    async updateAdminPassword(newPassword) {
+        const cleanPassword = (newPassword || '').trim();
+        if (cleanPassword.length < 6) {
+            return { ok: false, error: 'La nueva contraseña debe tener al menos 6 caracteres.' };
+        }
+
+        // 1. Guardar localmente y en la configuración de Supabase (textos_sitio -> config.admin_password)
+        this.setJSON(AppConfig.STORAGE_KEYS.ADMIN_PASSWORD, cleanPassword, { syncCloud: true });
+
+        // 2. Si hay sesión activa en Supabase Auth (ej. desde link de correo o login), actualizar también Auth
+        if (this.supabase) {
+            try {
+                const { data: sessionData } = await this.supabase.auth.getSession();
+                if (sessionData?.session) {
+                    await this.supabase.auth.updateUser({ password: cleanPassword });
+                }
+            } catch (err) {
+                console.warn('Nota: contraseña actualizada en base de datos; Auth se sincronizará en el próximo acceso:', err);
+            }
+        }
+
+        return { ok: true };
     }
 
     async signOutAdmin() {
@@ -130,7 +189,7 @@ class StorageService {
                 updatedAny = true;
             }
 
-            // 2. Sincronizar textos editables desde tabla 'textos_sitio'
+            // 2. Sincronizar textos editables y configuraciones (categorías, software, contraseña) desde 'textos_sitio'
             const { data: rowsTextos, error: errText } = await this.supabase
                 .from(this.supabaseConfig.TABLES.TEXTS)
                 .select('clave, contenido');
@@ -138,12 +197,36 @@ class StorageService {
             if (!errText && Array.isArray(rowsTextos) && rowsTextos.length > 0) {
                 const currentTexts = this.getJSON(AppConfig.STORAGE_KEYS.TEXTS, {});
                 let hasPageKeys = false;
+
                 rowsTextos.forEach((row) => {
-                    if (row.clave && (row.clave.startsWith('index.') || row.clave.startsWith('about.'))) {
+                    if (!row.clave) return;
+
+                    if (row.clave === 'config.categories') {
+                        try {
+                            const parsedCats = JSON.parse(row.contenido);
+                            if (Array.isArray(parsedCats) && parsedCats.length > 0) {
+                                this.setJSON(AppConfig.STORAGE_KEYS.CATEGORIES, parsedCats, { syncCloud: false });
+                                updatedAny = true;
+                            }
+                        } catch {}
+                    } else if (row.clave === 'config.software_stack') {
+                        try {
+                            const parsedSoft = JSON.parse(row.contenido);
+                            if (Array.isArray(parsedSoft) && parsedSoft.length > 0) {
+                                this.setJSON(AppConfig.STORAGE_KEYS.SOFTWARE, parsedSoft, { syncCloud: false });
+                                updatedAny = true;
+                            }
+                        } catch {}
+                    } else if (row.clave === 'config.admin_password') {
+                        if (row.contenido && row.contenido.trim().length > 0) {
+                            this.setJSON(AppConfig.STORAGE_KEYS.ADMIN_PASSWORD, row.contenido.trim(), { syncCloud: false });
+                        }
+                    } else if (row.clave.startsWith('index.') || row.clave.startsWith('about.')) {
                         currentTexts[row.clave] = row.contenido;
                         hasPageKeys = true;
                     }
                 });
+
                 if (hasPageKeys) {
                     this.setJSON(AppConfig.STORAGE_KEYS.TEXTS, currentTexts, { syncCloud: false });
                     updatedAny = true;
@@ -205,9 +288,33 @@ class StorageService {
                 await this.syncLinksToCloud(value);
             } else if (key === AppConfig.STORAGE_KEYS.CV_META && value && value.url) {
                 await this.syncCvMetaToCloud(value);
+            } else if (key === AppConfig.STORAGE_KEYS.CATEGORIES && Array.isArray(value)) {
+                await this.syncConfigRowToCloud('config.categories', JSON.stringify(value));
+            } else if (key === AppConfig.STORAGE_KEYS.SOFTWARE && Array.isArray(value)) {
+                await this.syncConfigRowToCloud('config.software_stack', JSON.stringify(value));
+            } else if (key === AppConfig.STORAGE_KEYS.ADMIN_PASSWORD && typeof value === 'string') {
+                await this.syncConfigRowToCloud('config.admin_password', value);
             }
         } catch (error) {
             console.warn(`Error sincronizando "${key}" hacia Supabase:`, error);
+        }
+    }
+
+    async syncConfigRowToCloud(clave, contenido) {
+        if (!this.supabase) return;
+        const table = this.supabaseConfig.TABLES.TEXTS;
+        const { error } = await this.supabase.from(table).upsert(
+            [
+                {
+                    clave,
+                    contenido: String(contenido ?? ''),
+                    seccion: 'config'
+                }
+            ],
+            { onConflict: 'clave' }
+        );
+        if (error) {
+            console.warn(`Error guardando configuración "${clave}" en Supabase:`, error.message);
         }
     }
 
@@ -230,14 +337,13 @@ class StorageService {
         if (!this.supabase) return;
         const table = this.supabaseConfig.TABLES.PROJECTS;
 
-        // Reemplazar proyectos activos manteniendo el orden exacto
         const { error: delError } = await this.supabase
             .from(table)
             .delete()
             .neq('titulo', '__never_match__');
 
         if (delError) {
-            console.warn('No se pudo actualizar tabla proyectos (verifica sesión Admin en Supabase):', delError.message);
+            console.warn('No se pudo actualizar tabla proyectos:', delError.message);
             return;
         }
 
@@ -326,35 +432,37 @@ class StorageService {
         }
     }
 
-    async uploadCvToCloud(file) {
+    async uploadAssetToCloud(file, folder = 'proyectos') {
         if (!this.supabase || !file) return null;
         const bucket = this.supabaseConfig.BUCKET;
         const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-        const filePath = `cv/${Date.now()}_${safeName}`;
+        const filePath = `${folder}/${Date.now()}_${safeName}`;
 
         const { error: uploadError } = await this.supabase.storage
             .from(bucket)
             .upload(filePath, file, {
                 cacheControl: '3600',
                 upsert: true,
-                contentType: file.type || 'application/pdf'
+                contentType: file.type || 'application/octet-stream'
             });
 
         if (uploadError) {
-            console.warn('No se pudo subir el CV a Supabase Storage:', uploadError.message);
+            console.warn(`No se pudo subir el archivo a Supabase Storage (${folder}):`, uploadError.message);
             return null;
         }
 
         const { data } = this.supabase.storage.from(bucket).getPublicUrl(filePath);
-        const publicUrl = data?.publicUrl || null;
+        return data?.publicUrl || null;
+    }
 
+    async uploadCvToCloud(file) {
+        const publicUrl = await this.uploadAssetToCloud(file, 'cv');
         if (publicUrl) {
             await this.syncCvMetaToCloud({
                 fileName: file.name,
                 url: publicUrl
             });
         }
-
         return publicUrl;
     }
 

@@ -7,7 +7,7 @@
     <title>Sobre Mí | Steban Gómez — Diseñador Industrial & POP</title>
     <meta name="description"
         content="Conoce más sobre Steban Gómez, Diseñador Industrial y Tecnólogo en Desarrollo y Modelado de Productos Industriales especializado en retail y materialización POP.">
-    <link rel="stylesheet" href="style.css?v=2">
+    <link rel="stylesheet" href="style.css?v=3">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -97,6 +97,58 @@
                         <button type="submit" class="btn-primary admin-submit">Guardar enlaces</button>
                     </div>
                 </form>
+            </div>
+
+            <div class="admin-sections-grid">
+                <div id="admin-software-section" class="admin-block">
+                    <h4 class="admin-block-title">Stack de Software (Agregar herramienta)</h4>
+                    <form id="software-form" class="project-form">
+                        <div class="field-group">
+                            <label for="software-name">Nombre del software</label>
+                            <input id="software-name" type="text" placeholder="Ej. Blender, SolidWorks, V-Ray..." required>
+                        </div>
+                        <div class="field-group">
+                            <label for="software-color">Color de acento</label>
+                            <select id="software-color">
+                                <option value="cyan">Cyan</option>
+                                <option value="orange">Naranja</option>
+                                <option value="amber">Ámbar</option>
+                                <option value="orange-dark">Naranja Intenso</option>
+                                <option value="blue">Azul</option>
+                                <option value="blue-strong">Azul Real</option>
+                                <option value="purple">Púrpura</option>
+                            </select>
+                        </div>
+                        <div class="field-group field-group-full">
+                            <label for="software-description">Descripción de la herramienta</label>
+                            <textarea id="software-description" rows="2" placeholder="Describe para qué utilizas este software en tus proyectos POP y 3D..."></textarea>
+                        </div>
+                        <div class="project-form-actions field-group-full">
+                            <button type="submit" class="btn-primary admin-submit">+ Agregar al Stack</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="admin-security-section" class="admin-block">
+                    <h4 class="admin-block-title">🔐 Seguridad — Cambiar Contraseña</h4>
+                    <form id="change-password-form" class="cv-form">
+                        <div class="field-group">
+                            <label for="admin-current-pass">Contraseña actual</label>
+                            <input id="admin-current-pass" type="password" placeholder="Contraseña actual" required>
+                        </div>
+                        <div class="field-group">
+                            <label for="admin-new-pass">Nueva contraseña (mín. 6 caracteres)</label>
+                            <input id="admin-new-pass" type="password" placeholder="Nueva contraseña" required>
+                        </div>
+                        <div class="field-group">
+                            <label for="admin-confirm-pass">Confirmar nueva contraseña</label>
+                            <input id="admin-confirm-pass" type="password" placeholder="Repite la nueva contraseña" required>
+                        </div>
+                        <div class="project-form-actions">
+                            <button type="submit" class="btn-primary admin-submit">Actualizar contraseña</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </section>
@@ -193,12 +245,38 @@
     <div id="privileged-modal" class="privileged-modal hidden" aria-hidden="true">
         <div class="privileged-modal-content">
             <button id="close-privileged-modal" class="modal-close" aria-label="Cerrar">&times;</button>
-            <h3>Modo privilegiado</h3>
-            <p>Accede a las herramientas para editar cualquier texto, gestionar proyectos y actualizar la hoja de vida.</p>
-            <label class="sr-only" for="privileged-password">Contraseña</label>
-            <input id="privileged-password" type="password" placeholder="Contraseña" autocomplete="current-password">
-            <button id="access-privileged" class="btn-primary" type="button">Entrar</button>
-            <small>Contraseña por defecto: steban2026</small>
+
+            <div id="privileged-login-view">
+                <h3>Modo privilegiado</h3>
+                <p>Accede a las herramientas para editar textos, categorías, stack de software, proyectos y hoja de vida.</p>
+                <label class="sr-only" for="privileged-password">Contraseña</label>
+                <input id="privileged-password" type="password" placeholder="Contraseña de administrador" autocomplete="current-password">
+                <div class="privileged-modal-actions">
+                    <button id="access-privileged" class="btn-primary" type="button">Entrar</button>
+                    <a href="#" id="forgot-password-link" class="forgot-password-link">¿Olvidaste tu contraseña?</a>
+                </div>
+            </div>
+
+            <div id="privileged-forgot-view" class="hidden">
+                <h3>Recuperar contraseña</h3>
+                <p>Se enviará un enlace seguro de restablecimiento al correo de administrador registrado en Supabase.</p>
+                <label class="sr-only" for="recovery-email-input">Correo de administrador</label>
+                <input id="recovery-email-input" type="email" value="stebangomezlopez1224@gmail.com" placeholder="stebangomezlopez1224@gmail.com">
+                <div class="privileged-modal-actions">
+                    <button id="send-recovery-btn" class="btn-primary" type="button">Enviar enlace al correo</button>
+                    <button id="back-to-login-btn" class="ghost-button" type="button">Volver</button>
+                </div>
+            </div>
+
+            <div id="privileged-reset-view" class="hidden">
+                <h3>Nueva contraseña</h3>
+                <p>Ingresa y confirma tu nueva contraseña de administrador para este portafolio.</p>
+                <input id="new-pass-modal-input" type="password" placeholder="Nueva contraseña (mín. 6 caracteres)">
+                <input id="confirm-pass-modal-input" type="password" placeholder="Confirmar nueva contraseña">
+                <div class="privileged-modal-actions">
+                    <button id="save-new-pass-modal-btn" class="btn-primary" type="button">Guardar contraseña</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -252,6 +330,7 @@
     <script src="js/services/StorageService.js"></script>
     <script src="js/modules/ModalViewer3D.js"></script>
     <script src="js/modules/ProjectManager.js"></script>
+    <script src="js/modules/SoftwareManager.js"></script>
     <script src="js/modules/TextEditorManager.js"></script>
     <script src="js/modules/LinkEditorManager.js"></script>
     <script src="js/modules/CvManager.js"></script>

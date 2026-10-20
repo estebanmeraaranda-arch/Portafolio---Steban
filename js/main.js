@@ -4,6 +4,7 @@ class PortfolioApp {
         this.notificationService = new NotificationService();
 
         this.projectManager = new ProjectManager(this.storageService, this.notificationService);
+        this.softwareManager = new SoftwareManager(this.storageService, this.notificationService);
         this.textEditorManager = new TextEditorManager(this.storageService, this.notificationService);
         this.linkEditorManager = new LinkEditorManager(this.storageService, this.notificationService);
         this.cvManager = new CvManager(this.storageService, this.notificationService);
@@ -14,12 +15,13 @@ class PortfolioApp {
             projectManager: this.projectManager,
             textEditorManager: this.textEditorManager,
             linkEditorManager: this.linkEditorManager,
-            cvManager: this.cvManager
+            cvManager: this.cvManager,
+            softwareManager: this.softwareManager
         });
     }
 
     async init() {
-        this.initSoftwareColors();
+        this.softwareManager.init();
         this.initSmoothAnchors();
 
         this.textEditorManager.init();
@@ -32,6 +34,8 @@ class PortfolioApp {
         if (typeof this.storageService.syncFromCloud === 'function') {
             const updated = await this.storageService.syncFromCloud();
             if (updated) {
+                this.softwareManager.render();
+                this.projectManager.renderCategoriesUI();
                 this.textEditorManager.refreshFromStorage?.();
                 this.linkEditorManager.applyLinksToDOM();
                 this.cvManager.updateStatusUI();
@@ -42,15 +46,6 @@ class PortfolioApp {
                 }
             }
         }
-    }
-
-    initSoftwareColors() {
-        const softwareItems = document.querySelectorAll('.software-item');
-        softwareItems.forEach((item) => {
-            const colorKey = item.dataset.color || 'cyan';
-            const hexColor = AppConfig.SOFTWARE_COLORS[colorKey] || '#00d7ff';
-            item.style.setProperty('--software-color', hexColor);
-        });
     }
 
     initSmoothAnchors() {
