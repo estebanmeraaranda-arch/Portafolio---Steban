@@ -561,9 +561,9 @@ nav {
 
 .project-form {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 1rem;
-    align-items: end;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.15rem;
+    align-items: start;
 }
 
 .field-group {
@@ -1954,10 +1954,53 @@ footer {
     opacity: 0.8;
 }
 
-.admin-file-compact {
-    margin-top: 0.35rem;
-    font-size: 0.76rem;
-    padding: 0.4rem !important;
-    cursor: pointer;
+.input-upload-group {
+    display: flex;
+    align-items: stretch;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 10px;
+    background: rgba(7, 11, 20, 0.7);
+    overflow: hidden;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
+
+.input-upload-group:focus-within {
+    border-color: var(--primary-cyan);
+    box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.18);
+}
+
+.input-upload-group input[type='text'] {
+    flex: 1;
+    min-width: 0;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0.8rem 0.9rem;
+    font-size: 0.88rem;
+}
+
+.upload-trigger-btn {
+    border: none;
+    border-left: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(0, 229, 255, 0.12);
+    color: var(--primary-cyan);
+    padding: 0 1rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.upload-trigger-btn:hover {
+    background: var(--primary-cyan);
+    color: var(--bg-dark);
+}
+
+@media (max-width: 640px) {
+    .project-form {
+        grid-template-columns: 1fr;
+    }
+}
+
 

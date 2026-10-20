@@ -124,7 +124,7 @@ class TextEditorManager {
 
         const ok = this.storage.setJSON(this.storageKey, saved);
         if (ok && showNotification) {
-            this.notifier.show('✓ Cambios de texto guardados correctamente.');
+            this.notifier.show('Cambios de texto guardados correctamente.');
         }
     }
 
@@ -142,7 +142,7 @@ class TextEditorManager {
         });
 
         this.storage.setJSON(this.storageKey, saved);
-        this.notifier.show('↺ Textos restaurados a su versión original.');
+        this.notifier.show('Textos restaurados a su versión original.');
     }
 
     refreshFromStorage() {

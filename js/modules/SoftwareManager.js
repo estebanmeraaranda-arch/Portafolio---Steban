@@ -66,7 +66,7 @@ class SoftwareManager {
 
         this.saveSoftware(list);
         this.render();
-        this.notifier.show(`✓ "${cleanName}" agregado al Stack de Software.`);
+        this.notifier.show(`"${cleanName}" agregado al Stack de Software.`);
         return true;
     }
 
@@ -87,7 +87,7 @@ class SoftwareManager {
         const updated = list.filter((item) => item.id !== id);
         this.saveSoftware(updated);
         this.render();
-        this.notifier.show(`🗑️ "${target.name}" eliminado del Stack.`);
+        this.notifier.show(`"${target.name}" eliminado del Stack.`);
     }
 
     updateSoftwareItem(id, changes) {
@@ -146,7 +146,7 @@ class SoftwareManager {
                         const newName = nameSpan.textContent.trim();
                         if (newName && newName !== item.name) {
                             this.updateSoftwareItem(item.id, { name: newName });
-                            this.notifier.show('✓ Nombre de software actualizado.');
+                            this.notifier.show('Nombre de software actualizado.');
                         }
                     });
                 }
@@ -219,7 +219,7 @@ class SoftwareManager {
                         const newName = title.textContent.trim();
                         if (newName && newName !== item.name) {
                             this.updateSoftwareItem(item.id, { name: newName });
-                            this.notifier.show('✓ Software actualizado.');
+                            this.notifier.show('Software actualizado.');
                         }
                     });
 
@@ -229,7 +229,7 @@ class SoftwareManager {
                         const newDesc = desc.textContent.trim();
                         if (newDesc !== item.description) {
                             this.updateSoftwareItem(item.id, { description: newDesc });
-                            this.notifier.show('✓ Descripción de software actualizada.');
+                            this.notifier.show('Descripción de software actualizada.');
                         }
                     });
                 }

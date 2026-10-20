@@ -88,7 +88,7 @@ class ProjectManager {
         categories.push({ slug, label });
         this.saveCategories(categories);
         this.renderCategoriesUI();
-        this.notifier.show(`✓ Categoría "${label}" agregada.`);
+        this.notifier.show(`Categoría "${label}" agregada.`);
         return true;
     }
 
@@ -115,7 +115,7 @@ class ProjectManager {
 
         this.renderCategoriesUI();
         this.applyFilter(this.activeFilter);
-        this.notifier.show(`🗑️ Categoría "${target.label}" eliminada.`);
+        this.notifier.show(`Categoría "${target.label}" eliminada.`);
     }
 
     renderCategoriesUI() {
@@ -274,7 +274,7 @@ class ProjectManager {
         this.modalViewer.updateDescriptionView(projects[index]);
         this.renderProjects(projects);
         this.applyFilter(this.getActiveFilter());
-        this.notifier.show('✓ Descripción del proyecto actualizada.');
+        this.notifier.show('Descripción del proyecto actualizada.');
     }
 
     getActiveFilter() {
@@ -302,16 +302,22 @@ class ProjectManager {
 
         // Subida directa de imagen desde archivo local a Supabase Storage
         const imageFileInput = document.getElementById('project-image-file');
+        const triggerImageBtn = document.getElementById('trigger-project-image-btn');
         const imageInput = document.getElementById('project-image');
+        if (triggerImageBtn && imageFileInput) {
+            triggerImageBtn.addEventListener('click', () => imageFileInput.click());
+        }
         if (imageFileInput && imageInput) {
             imageFileInput.addEventListener('change', async () => {
                 const file = imageFileInput.files?.[0];
                 if (!file) return;
-                this.notifier.show('⏳ Subiendo imagen del proyecto a la nube...');
+                if (triggerImageBtn) triggerImageBtn.textContent = 'Subiendo...';
+                this.notifier.show('Subiendo imagen del proyecto a la nube...');
                 const url = await this.storage.uploadAssetToCloud?.(file, 'renders');
+                if (triggerImageBtn) triggerImageBtn.textContent = 'Subir imagen';
                 if (url) {
                     imageInput.value = url;
-                    this.notifier.show('☁️ Imagen subida correctamente.');
+                    this.notifier.show('Imagen subida correctamente.');
                 } else {
                     alert('No se pudo subir la imagen a Supabase Storage.');
                 }
@@ -320,16 +326,22 @@ class ProjectManager {
 
         // Subida directa de modelo 3D (.glb) desde archivo local a Supabase Storage
         const modelFileInput = document.getElementById('project-model-file');
+        const triggerModelBtn = document.getElementById('trigger-project-model-btn');
         const modelInput = document.getElementById('project-model');
+        if (triggerModelBtn && modelFileInput) {
+            triggerModelBtn.addEventListener('click', () => modelFileInput.click());
+        }
         if (modelFileInput && modelInput) {
             modelFileInput.addEventListener('change', async () => {
                 const file = modelFileInput.files?.[0];
                 if (!file) return;
-                this.notifier.show('⏳ Subiendo modelo 3D (.glb) a la nube...');
+                if (triggerModelBtn) triggerModelBtn.textContent = 'Subiendo...';
+                this.notifier.show('Subiendo modelo 3D (.glb) a la nube...');
                 const url = await this.storage.uploadAssetToCloud?.(file, 'modelos3d');
+                if (triggerModelBtn) triggerModelBtn.textContent = 'Subir .glb';
                 if (url) {
                     modelInput.value = url;
-                    this.notifier.show('☁️ Modelo 3D subido correctamente.');
+                    this.notifier.show('Modelo 3D subido correctamente.');
                 } else {
                     alert('No se pudo subir el modelo 3D a Supabase Storage.');
                 }
@@ -378,7 +390,7 @@ class ProjectManager {
                         description: projectDescription
                     };
                 }
-                this.notifier.show('✓ Proyecto actualizado correctamente.');
+                this.notifier.show('Proyecto actualizado correctamente.');
             } else {
                 projects.unshift({
                     name: projectName,
@@ -389,7 +401,7 @@ class ProjectManager {
                     embedUrl,
                     description: projectDescription
                 });
-                this.notifier.show('✓ Nuevo proyecto agregado.');
+                this.notifier.show('Nuevo proyecto agregado.');
             }
 
             this.saveProjects(projects);
@@ -437,7 +449,7 @@ class ProjectManager {
         this.saveProjects(updated);
         this.renderProjects(updated);
         this.applyFilter(this.getActiveFilter());
-        this.notifier.show('🗑️ Proyecto eliminado.');
+        this.notifier.show('Proyecto eliminado.');
     }
 
     renderProjects(projects) {

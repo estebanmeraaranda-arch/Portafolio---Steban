@@ -133,7 +133,7 @@ class LinkEditorManager {
 
             this.saveLinks(updated);
             this.applyLinksToDOM();
-            this.notifier.show('✓ Enlaces de contacto e Instagram actualizados.');
+            this.notifier.show('Enlaces de contacto e Instagram actualizados.');
         });
     }
 
@@ -145,7 +145,7 @@ class LinkEditorManager {
         popover.className = 'admin-link-popover hidden';
         popover.innerHTML = `
             <div class="admin-link-popover-header">
-                <strong>🔗 Editar enlace</strong>
+                <strong>Editar enlace</strong>
                 <button type="button" id="close-link-popover" class="link-popover-close" aria-label="Cerrar">&times;</button>
             </div>
             <div class="field-group">
@@ -182,7 +182,7 @@ class LinkEditorManager {
             this.saveLinks(links);
             this.applyLinksToDOM();
             this.closePopover();
-            this.notifier.show('✓ Enlace actualizado correctamente.');
+            this.notifier.show('Enlace actualizado correctamente.');
         });
 
         document.addEventListener('click', (event) => {

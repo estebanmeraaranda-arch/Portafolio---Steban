@@ -7,7 +7,7 @@
     <title>Steban Gómez | Portafolio 3D y POP</title>
     <meta name="description"
         content="Portafolio de Steban Gómez — Diseñador Industrial especializado en POP, modelado 3D y materialización de productos para retail.">
-    <link rel="stylesheet" href="style.css?v=3">
+    <link rel="stylesheet" href="style.css?v=4">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -64,7 +64,7 @@
             <div class="hero-buttons">
                 <a href="#proyectos" class="btn-primary" data-editable="index.hero-btn-projects">VER PROYECTOS</a>
                 <a href="#" id="download-cv-btn" class="btn-secondary" data-editable="index.hero-btn-cv">DESCARGAR CV</a>
-                <button type="button" id="quick-update-cv-btn" class="btn-admin-action hidden">📄 Actualizar CV</button>
+                <button type="button" id="quick-update-cv-btn" class="btn-admin-action hidden">Actualizar CV</button>
             </div>
         </div>
 
@@ -132,10 +132,10 @@
             <div class="admin-header">
                 <div>
                     <h3>Modo privilegiado (Admin)</h3>
-                    <p class="admin-help-text">💡 Puedes hacer clic directamente sobre cualquier texto de la página (Inicio o Sobre mí) para editarlo.</p>
+                    <p class="admin-help-text">Puedes hacer clic directamente sobre cualquier texto de la página (Inicio o Sobre mí) para editarlo.</p>
                 </div>
                 <div class="admin-header-actions">
-                    <button id="save-all-texts-btn" class="btn-primary admin-action-btn" type="button">💾 Guardar textos</button>
+                    <button id="save-all-texts-btn" class="btn-primary admin-action-btn" type="button">Guardar textos</button>
                     <button id="reset-texts-btn" class="ghost-button" type="button">Restaurar textos</button>
                     <button id="logout-privileged" class="ghost-button" type="button">Cerrar sesión</button>
                 </div>
@@ -162,15 +162,20 @@
                             </select>
                         </div>
                         <div class="field-group">
-                            <label for="project-image">URL o ruta de imagen (o sube archivo abajo)</label>
-                            <input id="project-image" name="project-image" type="text" placeholder="Assets/Renders/... o https://..."
-                                required>
-                            <input id="project-image-file" type="file" accept="image/*" class="admin-file-compact" title="Subir imagen desde tu equipo">
+                            <label for="project-image">Imagen del proyecto (Render)</label>
+                            <div class="input-upload-group">
+                                <input id="project-image" name="project-image" type="text" placeholder="Sube una imagen o pega URL..." required>
+                                <button type="button" id="trigger-project-image-btn" class="upload-trigger-btn">Subir imagen</button>
+                                <input id="project-image-file" type="file" accept="image/*" class="hidden">
+                            </div>
                         </div>
                         <div class="field-group">
-                            <label for="project-model">Modelo 3D (.glb o link de Sketchfab)</label>
-                            <input id="project-model" name="project-model" type="text" placeholder="https://sketchfab.com/... o archivo .glb">
-                            <input id="project-model-file" type="file" accept=".glb,.gltf" class="admin-file-compact" title="Subir archivo .glb desde tu equipo">
+                            <label for="project-model">Modelo 3D (.glb o enlace Sketchfab)</label>
+                            <div class="input-upload-group">
+                                <input id="project-model" name="project-model" type="text" placeholder="Pega link de Sketchfab o sube .glb...">
+                                <button type="button" id="trigger-project-model-btn" class="upload-trigger-btn">Subir .glb</button>
+                                <input id="project-model-file" type="file" accept=".glb,.gltf" class="hidden">
+                            </div>
                         </div>
                         <div class="field-group field-group-full">
                             <label for="project-description">Descripción del proyecto</label>
@@ -188,12 +193,12 @@
                     <h4 class="admin-block-title">Hoja de Vida (CV)</h4>
                     <form id="cv-form" class="cv-form">
                         <div class="field-group">
-                            <label for="cv-file-input">Subir archivo de Hoja de Vida (PDF, DOC, DOCX)</label>
-                            <input id="cv-file-input" name="cv-file" type="file" accept=".pdf,.doc,.docx">
-                        </div>
-                        <div class="field-group">
-                            <label for="cv-url-input">O indicar enlace / ruta del archivo CV</label>
-                            <input id="cv-url-input" name="cv-url" type="text" placeholder="Ej. Assets/CV_Steban_Gomez.pdf o enlace externo">
+                            <label for="cv-url-input">Archivo PDF/DOC o enlace de Hoja de Vida</label>
+                            <div class="input-upload-group">
+                                <input id="cv-url-input" name="cv-url" type="text" placeholder="Sube un PDF o pega un enlace...">
+                                <button type="button" id="trigger-cv-file-btn" class="upload-trigger-btn">Subir PDF</button>
+                                <input id="cv-file-input" name="cv-file" type="file" accept=".pdf,.doc,.docx" class="hidden">
+                            </div>
                         </div>
                         <p id="cv-current-status" class="cv-status-text">Archivo actual: Predeterminado</p>
                         <div class="project-form-actions">
@@ -203,7 +208,7 @@
                 </div>
 
                 <div id="admin-links-section" class="admin-block admin-block-full">
-                    <h4 class="admin-block-title">Enlaces de Contacto y Redes ( también puedes hacer clic directo sobre ellos en la página )</h4>
+                    <h4 class="admin-block-title">Enlaces de Contacto y Redes (también puedes hacer clic directo sobre ellos en la página)</h4>
                     <form id="links-form" class="links-form">
                         <div class="field-group">
                             <label for="link-contact-text">Texto botón Contactar (Nav)</label>
@@ -279,7 +284,7 @@
                 </div>
 
                 <div id="admin-security-section" class="admin-block admin-block-full">
-                    <h4 class="admin-block-title">🔐 Seguridad — Cambiar Contraseña de Administrador</h4>
+                    <h4 class="admin-block-title">Seguridad — Cambiar Contraseña de Administrador</h4>
                     <form id="change-password-form" class="links-form">
                         <div class="field-group">
                             <label for="admin-current-pass">Contraseña actual</label>

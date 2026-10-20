@@ -7,6 +7,7 @@ class CvManager {
         this.downloadBtn = document.getElementById('download-cv-btn');
         this.quickUpdateBtn = document.getElementById('quick-update-cv-btn');
         this.cvFileInput = document.getElementById('cv-file-input');
+        this.triggerCvFileBtn = document.getElementById('trigger-cv-file-btn');
         this.cvUrlInput = document.getElementById('cv-url-input');
         this.cvForm = document.getElementById('cv-form');
         this.cvStatusEl = document.getElementById('cv-current-status');
@@ -19,6 +20,10 @@ class CvManager {
 
         if (this.downloadBtn) {
             this.downloadBtn.addEventListener('click', (event) => this.handleDownload(event));
+        }
+
+        if (this.triggerCvFileBtn && this.cvFileInput) {
+            this.triggerCvFileBtn.addEventListener('click', () => this.cvFileInput.click());
         }
 
         if (this.quickUpdateBtn) {
@@ -61,7 +66,7 @@ class CvManager {
                         updatedAt: new Date().toISOString()
                     });
                     this.updateStatusUI();
-                    this.notifier.show('✓ Enlace de Hoja de Vida actualizado correctamente.');
+                    this.notifier.show('Enlace de Hoja de Vida actualizado correctamente.');
                     return;
                 }
 
@@ -103,9 +108,11 @@ class CvManager {
     }
 
     async processAndSaveFile(file) {
+        if (this.triggerCvFileBtn) this.triggerCvFileBtn.textContent = 'Subiendo...';
         // 1. Intentar subir primero al bucket público 'cv-y-archivos' en Supabase Storage
         if (typeof this.storage.uploadCvToCloud === 'function') {
             const publicUrl = await this.storage.uploadCvToCloud(file);
+            if (this.triggerCvFileBtn) this.triggerCvFileBtn.textContent = 'Subir PDF';
             if (publicUrl) {
                 this.storage.setJSON(
                     this.metaKey,
@@ -117,11 +124,13 @@ class CvManager {
                     },
                     { syncCloud: false }
                 );
+                if (this.cvUrlInput) this.cvUrlInput.value = publicUrl;
                 this.updateStatusUI();
-                this.notifier.show(`☁️ Hoja de Vida subida a Supabase: ${file.name}`);
+                this.notifier.show(`Hoja de Vida subida a Supabase: ${file.name}`);
                 return;
             }
         }
+        if (this.triggerCvFileBtn) this.triggerCvFileBtn.textContent = 'Subir PDF';
 
         // 2. Respaldo local (IndexedDB / localStorage)
         const dataUrl = await this.readFileAsDataURL(file);
@@ -149,7 +158,7 @@ class CvManager {
         }
 
         this.updateStatusUI();
-        this.notifier.show(`✓ Hoja de Vida actualizada: ${file.name}`);
+        this.notifier.show(`Hoja de Vida actualizada: ${file.name}`);
     }
 
     async handleDownload(event) {

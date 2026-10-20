@@ -78,8 +78,8 @@ class AdminController {
                 <span><strong>Modo Admin:</strong> Haz clic en cualquier texto o enlace para editarlo</span>
             </div>
             <div class="admin-floating-actions">
-                <button type="button" id="floating-save-texts-btn" class="btn-primary admin-floating-btn">💾 Guardar cambios</button>
-                ${hasCvSection ? '<button type="button" id="floating-cv-btn" class="ghost-button admin-floating-btn">📄 Subir CV</button>' : ''}
+                <button type="button" id="floating-save-texts-btn" class="btn-primary admin-floating-btn">Guardar cambios</button>
+                ${hasCvSection ? '<button type="button" id="floating-cv-btn" class="ghost-button admin-floating-btn">Subir CV</button>' : ''}
                 <button type="button" id="floating-logout-btn" class="ghost-button admin-floating-btn">Salir</button>
             </div>
         `;
@@ -104,7 +104,7 @@ class AdminController {
             this.textEditorManager.saveAll(false);
             await this.storage.signOutAdmin?.();
             this.setAdminMode(false);
-            this.notifier.show('🔒 Sesión de administrador cerrada.');
+            this.notifier.show('Sesión de administrador cerrada.');
         });
 
         return bar;
@@ -188,7 +188,7 @@ class AdminController {
                 this.sendRecoveryBtn.textContent = 'Enviar enlace al correo';
 
                 if (result.ok) {
-                    this.notifier.show(`📧 Enlace de recuperación enviado a ${email}`);
+                    this.notifier.show(`Enlace de recuperación enviado a ${email}`);
                     alert(
                         `Se ha enviado un enlace de recuperación a ${email}.\n\nAl abrir el enlace desde el correo podrás definir tu nueva contraseña de administrador.`
                     );
@@ -221,7 +221,7 @@ class AdminController {
                     if (window.location.hash.includes('type=recovery')) {
                         history.replaceState(null, '', window.location.pathname);
                     }
-                    this.notifier.show('🔐 Contraseña actualizada y Modo Admin activado.');
+                    this.notifier.show('Contraseña actualizada y Modo Admin activado.');
                 } else {
                     alert(res.error || 'No se pudo actualizar la contraseña.');
                 }
@@ -257,7 +257,7 @@ class AdminController {
                 const res = await this.storage.updateAdminPassword(newVal);
                 if (res.ok) {
                     this.changePasswordForm.reset();
-                    this.notifier.show('🔐 Contraseña de administrador actualizada en la nube.');
+                    this.notifier.show('Contraseña de administrador actualizada en la nube.');
                 } else {
                     alert(res.error || 'Error actualizando la contraseña.');
                 }
@@ -269,7 +269,7 @@ class AdminController {
                 this.textEditorManager.saveAll(false);
                 await this.storage.signOutAdmin?.();
                 this.setAdminMode(false);
-                this.notifier.show('🔒 Sesión de administrador cerrada.');
+                this.notifier.show('Sesión de administrador cerrada.');
             });
         }
     }
@@ -286,7 +286,7 @@ class AdminController {
             await this.storage.signInAdmin?.(email, password);
             this.setAdminMode(true);
             this.closeModal();
-            this.notifier.show('🔓 Modo Admin activado.');
+            this.notifier.show('Modo Admin activado.');
             await this.storage.seedProjectsIfEmpty?.(this.projectManager.loadProjects());
             return;
         }
@@ -298,7 +298,7 @@ class AdminController {
                 this.storage.setJSON(AppConfig.STORAGE_KEYS.ADMIN_PASSWORD, password, { syncCloud: true });
                 this.setAdminMode(true);
                 this.closeModal();
-                this.notifier.show('🔓 Modo Admin (Supabase Cloud) activado.');
+                this.notifier.show('Modo Admin (Supabase Cloud) activado.');
                 await this.storage.seedProjectsIfEmpty?.(this.projectManager.loadProjects());
                 return;
             }
