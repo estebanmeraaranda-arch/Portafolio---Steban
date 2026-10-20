@@ -18,7 +18,7 @@ class PortfolioApp {
         });
     }
 
-    init() {
+    async init() {
         this.initSoftwareColors();
         this.initSmoothAnchors();
 
@@ -27,6 +27,21 @@ class PortfolioApp {
         this.cvManager.init();
         this.projectManager.init();
         this.adminController.init();
+
+        // Sincronizar en segundo plano con Supabase (Base de Datos y Storage)
+        if (typeof this.storageService.syncFromCloud === 'function') {
+            const updated = await this.storageService.syncFromCloud();
+            if (updated) {
+                this.textEditorManager.refreshFromStorage?.();
+                this.linkEditorManager.applyLinksToDOM();
+                this.cvManager.updateStatusUI();
+                if (this.projectManager.gridContainer) {
+                    const cloudProjects = this.projectManager.loadProjects();
+                    this.projectManager.renderProjects(cloudProjects);
+                    this.projectManager.applyFilter(this.projectManager.getActiveFilter());
+                }
+            }
+        }
     }
 
     initSoftwareColors() {

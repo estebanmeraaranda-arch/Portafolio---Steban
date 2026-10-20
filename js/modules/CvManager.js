@@ -103,6 +103,27 @@ class CvManager {
     }
 
     async processAndSaveFile(file) {
+        // 1. Intentar subir primero al bucket público 'cv-y-archivos' en Supabase Storage
+        if (typeof this.storage.uploadCvToCloud === 'function') {
+            const publicUrl = await this.storage.uploadCvToCloud(file);
+            if (publicUrl) {
+                this.storage.setJSON(
+                    this.metaKey,
+                    {
+                        type: 'url',
+                        url: publicUrl,
+                        fileName: file.name,
+                        updatedAt: new Date().toISOString()
+                    },
+                    { syncCloud: false }
+                );
+                this.updateStatusUI();
+                this.notifier.show(`☁️ Hoja de Vida subida a Supabase: ${file.name}`);
+                return;
+            }
+        }
+
+        // 2. Respaldo local (IndexedDB / localStorage)
         const dataUrl = await this.readFileAsDataURL(file);
         const payload = {
             fileName: file.name,

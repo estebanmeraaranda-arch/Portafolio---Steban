@@ -149,6 +149,17 @@ class TextEditorManager {
         this.notifier.show('↺ Textos restaurados a su versión original.');
     }
 
+    refreshFromStorage() {
+        const saved = this.storage.getJSON(this.storageKey, {});
+        const editables = document.querySelectorAll('[data-editable-key]');
+        editables.forEach((el) => {
+            const key = el.getAttribute('data-editable-key');
+            if (key && saved[key] !== undefined) {
+                el.innerHTML = saved[key];
+            }
+        });
+    }
+
     setAdminMode(isActive) {
         this.isAdminActive = isActive;
         const editables = document.querySelectorAll('[data-editable-key]');

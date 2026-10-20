@@ -1,6 +1,18 @@
 class AppConfig {
     static DEFAULT_PASSWORD = 'steban2026';
 
+    static SUPABASE = {
+        URL: 'https://cnokksazuhbyobcjhypz.supabase.co',
+        ANON_KEY: 'sb_publishable_l35fK9_W9r9camI0YntIyg_4kK7J9jZ',
+        BUCKET: 'cv-y-archivos',
+        ADMIN_EMAIL: 'stebangomezlopez1224@gmail.com',
+        TABLES: {
+            PROJECTS: 'proyectos',
+            TEXTS: 'textos_sitio',
+            LINKS: 'enlaces_sitio'
+        }
+    };
+
     static STORAGE_KEYS = {
         PROJECTS: 'portfolio-privileged-projects-v6',
         TEXTS: 'portfolio-editable-texts-v1',

@@ -75,8 +75,9 @@ class AdminController {
             }
         });
 
-        document.getElementById('floating-logout-btn')?.addEventListener('click', () => {
+        document.getElementById('floating-logout-btn')?.addEventListener('click', async () => {
             this.textEditorManager.saveAll(false);
+            await this.storage.signOutAdmin?.();
             this.setAdminMode(false);
             this.notifier.show('🔒 Sesión de administrador cerrada.');
         });
@@ -116,22 +117,40 @@ class AdminController {
         }
 
         if (this.logoutPrivilegedBtn) {
-            this.logoutPrivilegedBtn.addEventListener('click', () => {
+            this.logoutPrivilegedBtn.addEventListener('click', async () => {
                 this.textEditorManager.saveAll(false);
+                await this.storage.signOutAdmin?.();
                 this.setAdminMode(false);
                 this.notifier.show('🔒 Sesión de administrador cerrada.');
             });
         }
     }
 
-    attemptLogin() {
+    async attemptLogin() {
         if (!this.privilegedPassword) return;
-        if (this.privilegedPassword.value === this.defaultPassword) {
+        const password = this.privilegedPassword.value;
+        const emailInput = document.getElementById('privileged-email');
+        const email = emailInput?.value?.trim() || AppConfig.SUPABASE?.ADMIN_EMAIL || 'stebangomezlopez1224@gmail.com';
+
+        // 1. Intentar autenticar contra Supabase Auth (para políticas RLS de escritura)
+        if (typeof this.storage.signInAdmin === 'function') {
+            const authResult = await this.storage.signInAdmin(email, password);
+            if (authResult.ok) {
+                this.setAdminMode(true);
+                this.closeModal();
+                this.notifier.show('🔓 Modo Admin (Supabase Cloud) activado.');
+                await this.storage.seedProjectsIfEmpty?.(this.projectManager.loadProjects());
+                return;
+            }
+        }
+
+        // 2. Respaldo con contraseña maestra local
+        if (password === this.defaultPassword) {
             this.setAdminMode(true);
             this.closeModal();
             this.notifier.show('🔓 Modo Admin activado. Puedes editar textos, enlaces, proyectos y CV.');
         } else {
-            alert('Contraseña incorrecta.');
+            alert('Credenciales o contraseña incorrecta.');
         }
     }
 
