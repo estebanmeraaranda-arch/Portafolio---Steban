@@ -160,7 +160,7 @@ class AdminController {
             this.forgotPassLink.addEventListener('click', (e) => {
                 e.preventDefault();
                 if (this.recoveryEmailInput && !this.recoveryEmailInput.value) {
-                    this.recoveryEmailInput.value = AppConfig.SUPABASE?.ADMIN_EMAIL || 'stebangomezlopez1224@gmail.com';
+                    this.recoveryEmailInput.value = AppConfig.SUPABASE?.ADMIN_EMAIL || 'portafolio.stebangomez@gmail.com';
                 }
                 this.showModalSubView('forgot');
             });
@@ -177,7 +177,7 @@ class AdminController {
                 const email =
                     this.recoveryEmailInput?.value?.trim() ||
                     AppConfig.SUPABASE?.ADMIN_EMAIL ||
-                    'stebangomezlopez1224@gmail.com';
+                    'portafolio.stebangomez@gmail.com';
 
                 this.sendRecoveryBtn.disabled = true;
                 this.sendRecoveryBtn.textContent = 'Enviando enlace...';
@@ -277,7 +277,7 @@ class AdminController {
     async attemptLogin() {
         if (!this.privilegedPassword) return;
         const password = this.privilegedPassword.value;
-        const email = AppConfig.SUPABASE?.ADMIN_EMAIL || 'stebangomezlopez1224@gmail.com';
+        const email = AppConfig.SUPABASE?.ADMIN_EMAIL || 'portafolio.stebangomez@gmail.com';
         const effectivePassword = this.storage.getEffectiveAdminPassword();
 
         // 1. Verificar contra la contraseña vigente sincronizada en la nube (o por defecto hasta que se cambie)

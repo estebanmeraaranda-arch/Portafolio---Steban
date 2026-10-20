@@ -5,7 +5,7 @@ class AppConfig {
         URL: 'https://cnokksazuhbyobcjhypz.supabase.co',
         ANON_KEY: 'sb_publishable_l35fK9_W9r9camI0YntIyg_4kK7J9jZ',
         BUCKET: 'cv-y-archivos',
-        ADMIN_EMAIL: 'stebangomezlopez1224@gmail.com',
+        ADMIN_EMAIL: 'portafolio.stebangomez@gmail.com',
         TABLES: {
             PROJECTS: 'proyectos',
             TEXTS: 'textos_sitio',
